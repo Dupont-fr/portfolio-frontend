@@ -1,0 +1,87 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-background: #050f2c;
+  --color-primary: #00c2ff;
+  --color-secondary: #0099ff;
+  --color-accent: #6ee7ff;
+  --color-foreground: #ffffff;
+  --color-muted: #bfc7d5;
+  --color-success: #00d084;
+  --color-warning: #ffb547;
+  --color-danger: #ff4d6d;
+
+  --font-sora: 'Sora Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-inter: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background font-inter text-foreground antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-sora;
+  }
+
+  ::selection {
+    @apply bg-primary/30 text-white;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #050f2c;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 9999px;
+    background: rgb(0 153 255 / 0.35);
+    border: 2px solid #050f2c;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(0 194 255 / 0.55);
+  }
+}
+
+@utility glass {
+  @apply border border-white/10 bg-white/[0.04] backdrop-blur-xl;
+}
+
+@utility text-gradient {
+  @apply bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent;
+}
+
+@utility bg-grid {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.04) 1px, transparent 1px);
+  background-size: 56px 56px;
+}
+
+@utility no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
