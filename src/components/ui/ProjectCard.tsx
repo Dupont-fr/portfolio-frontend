@@ -1,17 +1,20 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { ArrowUpRight, Sparkles } from 'lucide-react'
-import type { FeaturedProject } from '@/constants/home'
+import type { Project } from '@/constants/projects'
+import { PROJECT_CATEGORIES } from '@/constants/projects'
 import { PATHS } from '@/routes/paths'
 import { Badge } from '@/components/ui/Badge'
 import { cn } from '@/utils/cn'
 
 interface ProjectCardProps {
-  project: FeaturedProject
+  project: Project
   index?: number
 }
 
 export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
+  const categoryLabel = PROJECT_CATEGORIES.find((category) => category.slug === project.category)?.label
+
   return (
     <motion.article
       initial={{ opacity: 0, y: 32 }}
@@ -38,15 +41,23 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
             <span className="absolute right-4 top-4 grid size-9 place-items-center rounded-full border border-white/15 bg-background/50 text-muted opacity-0 backdrop-blur-md transition-all duration-300 group-hover:opacity-100">
               <ArrowUpRight className="size-4 text-accent" />
             </span>
+            {categoryLabel && (
+              <span className="absolute left-4 top-4 rounded-full border border-white/15 bg-background/60 px-3 py-1 text-[11px] font-medium text-accent backdrop-blur-md">
+                {categoryLabel}
+              </span>
+            )}
           </div>
 
           <div className="flex flex-1 flex-col p-6">
-            <h3 className="font-sora text-lg font-semibold tracking-tight text-foreground">
-              {project.title}
-            </h3>
+            <div className="flex items-center justify-between gap-3">
+              <h3 className="font-sora text-lg font-semibold tracking-tight text-foreground">
+                {project.title}
+              </h3>
+              <span className="shrink-0 text-xs font-medium text-muted">{project.year}</span>
+            </div>
             <p className="mt-2 flex-1 text-sm leading-relaxed text-muted">{project.description}</p>
             <ul className="mt-4 flex flex-wrap gap-2">
-              {project.tags.map((tag) => (
+              {project.stack.slice(0, 4).map((tag) => (
                 <li key={tag}>
                   <Badge className="px-2.5 py-1 text-[11px]">{tag}</Badge>
                 </li>
