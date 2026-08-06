@@ -7,7 +7,7 @@ interface PortraitCardProps {
   className?: string
 }
 
-export function PortraitCard({ initials = 'FS', className }: PortraitCardProps) {
+export function PortraitCard({ initials = 'DD', className }: PortraitCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.96 }}

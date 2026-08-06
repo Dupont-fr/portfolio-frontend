@@ -1,4 +1,4 @@
-import type { LucideIcon } from 'lucide-react'
+import type { ComponentType } from 'react'
 
 export interface NavItem {
   label: string
@@ -8,5 +8,6 @@ export interface NavItem {
 export interface SocialLink {
   label: string
   url: string
-  icon: LucideIcon
+  color: string
+  icon: ComponentType<{ className?: string }>
 }

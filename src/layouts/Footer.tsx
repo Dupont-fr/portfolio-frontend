@@ -25,7 +25,9 @@ export function Footer() {
                   target="_blank"
                   rel="noreferrer noopener"
                   aria-label={social.label}
-                  className="grid size-10 place-items-center rounded-xl border border-white/10 bg-white/5 text-muted transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/50 hover:text-accent hover:shadow-lg hover:shadow-primary/10"
+                  title={social.label}
+                  className="group grid size-10 place-items-center rounded-xl text-white shadow-lg shadow-black/20 ring-1 ring-white/10 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+                  style={{ backgroundColor: social.color }}
                 >
                   <social.icon className="size-4.5" />
                 </a>
@@ -64,6 +66,16 @@ export function Footer() {
                   className="transition-colors duration-300 hover:text-accent"
                 >
                   {SITE.email}
+                </a>
+              </li>
+              <li>
+                <a
+                  href={SITE.whatsappUrl}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="transition-colors duration-300 hover:text-accent"
+                >
+                  {SITE.phone}
                 </a>
               </li>
               <li>
