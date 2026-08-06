@@ -1,3 +1,4 @@
+import { ExternalLink } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
 import { Reveal } from '@/components/ui/Reveal'
 import type { TimelineItem as TimelineItemType } from '@/constants/journey'
@@ -24,8 +25,32 @@ export function Timeline({ items }: TimelineProps) {
                 <span aria-hidden="true" className="absolute left-0 top-1.5 size-4 animate-ping rounded-full bg-primary/20" />
               )}
               <Badge>{item.period}</Badge>
-              <h3 className="mt-3 font-sora text-lg font-semibold text-foreground">{item.title}</h3>
-              <p className="text-sm font-medium text-primary">{item.subtitle}</p>
+              <div className="mt-3 flex items-center gap-3">
+                {item.logo && (
+                  <span className="grid size-10 shrink-0 place-items-center overflow-hidden rounded-xl border border-white/10 bg-white p-1 shadow-lg shadow-black/20">
+                    <img
+                      src={item.logo}
+                      alt={`Logo ${item.title}`}
+                      className="h-8 w-auto max-w-8 object-contain"
+                      loading="lazy"
+                    />
+                  </span>
+                )}
+                <h3 className="font-sora text-lg font-semibold text-foreground">{item.title}</h3>
+              </div>
+              {item.url ? (
+                <a
+                  href={item.url}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="mt-1 inline-flex items-center gap-1.5 text-sm font-medium text-primary transition-colors hover:text-accent"
+                >
+                  {item.subtitle}
+                  <ExternalLink className="size-3.5" />
+                </a>
+              ) : (
+                <p className="mt-1 text-sm font-medium text-primary">{item.subtitle}</p>
+              )}
               <p className="mt-2 text-sm leading-relaxed text-muted">{item.description}</p>
               <div className="mt-4 flex flex-wrap gap-2">
                 {item.tags.map((tag) => (

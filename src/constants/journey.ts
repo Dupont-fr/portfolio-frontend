@@ -4,6 +4,8 @@ export interface TimelineItem {
   subtitle: string
   description: string
   current?: boolean
+  logo?: string
+  url?: string
   tags: string[]
 }
 
@@ -24,6 +26,8 @@ export const EDUCATIONS: TimelineItem[] = [
     period: '2023 — 2026',
     title: 'Licence en Informatique Fondamentale',
     subtitle: 'Université de Dschang · Cameroun',
+    logo: '/Univesite_de_Dschang_logo.png',
+    url: 'https://www.univ-dschang.org',
     description:
       'Formation couvrant les fondements de l’informatique théorique et appliquée : algorithmique, programmation C et Java, génie logiciel, bases de données relationnelles, réseaux, systèmes d’exploitation et analyse de données.',
     tags: ['Algorithmique', 'C / Java', 'Bases de données', 'Génie logiciel'],
@@ -32,6 +36,8 @@ export const EDUCATIONS: TimelineItem[] = [
     period: 'Juin — Novembre 2025',
     title: 'Développement Full Stack JavaScript',
     subtitle: 'MO’OC Academy · Formation intensive',
+    logo: "/Mo'ock_logo.jfif",
+    url: 'https://www.linkedin.com/company/mo-ock',
     description:
       'Formation professionnelle intensive couvrant toute la chaîne de développement : frontend (React, TypeScript, Tailwind, Redux), backend (Node.js, Express, API REST, JWT, Zod) et bases de données (MongoDB, MySQL, PostgreSQL).',
     tags: ['React', 'Node.js', 'Express', 'TypeScript', 'MongoDB'],
