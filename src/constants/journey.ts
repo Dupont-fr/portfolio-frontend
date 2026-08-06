@@ -9,47 +9,39 @@ export interface TimelineItem {
 
 export const EXPERIENCES: TimelineItem[] = [
   {
-    period: '2023 — Aujourd’hui',
-    title: 'Développeur Full Stack Freelance',
-    subtitle: 'Indépendant · Cameroun',
+    period: '2025 — Aujourd’hui',
+    title: 'Développeur Full Stack JavaScript',
+    subtitle: 'Freelance · Projets personnels',
     description:
-      'Conception et développement d’applications web complètes pour des clients variés : sites vitrines, plateformes, dashboards et e-commerce.',
+      'Après une formation intensive, je conçois et développe des applications web complètes — sites, plateformes et API — en appliquant les technologies de l’écosystème JavaScript sur des projets concrets.',
     current: true,
-    tags: ['React', 'Node.js', 'MongoDB', 'UI Design'],
-  },
-  {
-    period: '2021 — 2023',
-    title: 'Développeur Web',
-    subtitle: 'Entreprise · Cameroun',
-    description:
-      'Création d’interfaces et d’API, participation à la refonte d’applications internes et amélioration des performances.',
-    tags: ['JavaScript', 'Express', 'PostgreSQL'],
-  },
-  {
-    period: '2019 — 2021',
-    title: 'Intégrateur / Développeur Junior',
-    subtitle: 'Agence web · Cameroun',
-    description:
-      'Intégration de maquettes, développement de templates et premiers projets full stack.',
-    tags: ['HTML/CSS', 'JavaScript', 'Git'],
+    tags: ['React', 'TypeScript', 'Node.js', 'Express', 'MongoDB'],
   },
 ] as const
 
 export const EDUCATIONS: TimelineItem[] = [
   {
-    period: '2023',
-    title: 'Certification React / Node.js',
-    subtitle: 'Formation certifiante en ligne',
+    period: '2023 — 2026',
+    title: 'Licence en Informatique Fondamentale',
+    subtitle: 'Université de Dschang · Cameroun',
     description:
-      'Spécialisation en développement d’applications web modernes avec l’écosystème JavaScript.',
-    tags: ['React', 'Node.js', 'TypeScript'],
+      'Formation couvrant les fondements de l’informatique théorique et appliquée : algorithmique, programmation C et Java, génie logiciel, bases de données relationnelles, réseaux, systèmes d’exploitation et analyse de données.',
+    tags: ['Algorithmique', 'C / Java', 'Bases de données', 'Génie logiciel'],
   },
   {
-    period: '2021 — 2024',
-    title: 'Licence en Informatique',
-    subtitle: 'Université · Cameroun',
+    period: 'Juin — Novembre 2025',
+    title: 'Développement Full Stack JavaScript',
+    subtitle: 'MO’OC Academy · Formation intensive',
     description:
-      'Fondamentaux de l’algorithmique, des bases de données et du génie logiciel.',
-    tags: ['Algorithmique', 'Bases de données', 'Génie logiciel'],
+      'Formation professionnelle intensive couvrant toute la chaîne de développement : frontend (React, TypeScript, Tailwind, Redux), backend (Node.js, Express, API REST, JWT, Zod) et bases de données (MongoDB, MySQL, PostgreSQL).',
+    tags: ['React', 'Node.js', 'Express', 'TypeScript', 'MongoDB'],
+  },
+  {
+    period: '2022 — 2023',
+    title: 'Baccalauréat Scientifique',
+    subtitle: 'Lycée de Bafou · Ouest Cameroun',
+    description:
+      'Obtention du baccalauréat scientifique, étape décisive qui a confirmé mon intérêt pour les sciences et les technologies et m’a conduit vers l’Université de Dschang.',
+    tags: ['Mathématiques', 'Physique', 'Sciences'],
   },
 ] as const
