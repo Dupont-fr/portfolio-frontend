@@ -3,11 +3,10 @@ import { BadgeCheck, MapPin } from 'lucide-react'
 import { SITE } from '@/constants/site'
 
 interface PortraitCardProps {
-  initials?: string
   className?: string
 }
 
-export function PortraitCard({ initials = 'DD', className }: PortraitCardProps) {
+export function PortraitCard({ className }: PortraitCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.96 }}
@@ -26,8 +25,14 @@ export function PortraitCard({ initials = 'DD', className }: PortraitCardProps) 
             {SITE.role}
           </span>
 
-          <div className="relative grid size-40 place-items-center rounded-full bg-gradient-to-br from-primary to-secondary shadow-2xl shadow-primary/30">
-            <span className="font-sora text-5xl font-bold text-background">{initials}</span>
+          <div className="relative size-44 overflow-hidden rounded-full border border-white/15 bg-background/50 shadow-2xl shadow-primary/30 ring-2 ring-primary/40">
+            <img
+              src="/portrait.jpg"
+              alt={`Portrait de ${SITE.brand}`}
+              className="size-full object-cover"
+              loading="lazy"
+            />
+            <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/40 to-transparent" />
           </div>
 
           <div className="relative text-center">
