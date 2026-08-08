@@ -16,5 +16,5 @@ export const MARQUEE_TECH = [
   'Docker',
   //'Framer Motion',
   'GitHub',
-  '',
+  'WebSocket',
 ] as const

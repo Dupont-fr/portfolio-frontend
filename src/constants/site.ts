@@ -1,5 +1,12 @@
 import { Mail, Phone } from 'lucide-react'
-import { FaGithub, FaXTwitter, FaLinkedin, FaWhatsapp, FaFacebookF, FaInstagram } from 'react-icons/fa6'
+import {
+  FaGithub,
+  FaXTwitter,
+  FaLinkedin,
+  FaWhatsapp,
+  FaFacebookF,
+  FaInstagram,
+} from 'react-icons/fa6'
 import type { SocialLink } from '@/types'
 
 export const SITE = {
@@ -24,8 +31,18 @@ export const SOCIAL_LINKS: SocialLink[] = [
     icon: FaLinkedin,
   },
   { label: 'WhatsApp', url: SITE.whatsappUrl, color: '#25D366', icon: FaWhatsapp },
-  { label: 'Facebook', url: 'https://facebook.com', color: '#1877F2', icon: FaFacebookF },
-  { label: 'Instagram', url: 'https://www.instagram.com', color: '#E4405F', icon: FaInstagram },
+  {
+    label: 'Facebook',
+    url: 'https://web.facebook.com/dupont.djeague',
+    color: '#1877F2',
+    icon: FaFacebookF,
+  },
+  {
+    label: 'Instagram',
+    url: 'https://www.instagram.com/djeaguedupont/',
+    color: '#E4405F',
+    icon: FaInstagram,
+  },
 ]
 
 export const CONTACT_INFOS = [

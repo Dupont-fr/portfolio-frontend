@@ -35,7 +35,7 @@ export const EDUCATIONS: TimelineItem[] = [
   {
     period: 'Juin — Novembre 2025',
     title: 'Développement Full Stack JavaScript',
-    subtitle: 'MO’OC Academy · Formation intensive',
+    subtitle: 'MO’OCK Academy · Formation intensive',
     logo: "/Mo'ock_logo.jfif",
     url: 'https://www.linkedin.com/company/mo-ock',
     description:
