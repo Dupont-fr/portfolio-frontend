@@ -1,5 +1,5 @@
 import { Mail, Phone } from 'lucide-react'
-import { FaGithub, FaXTwitter, FaLinkedin, FaWhatsapp, FaFacebookF } from 'react-icons/fa6'
+import { FaGithub, FaXTwitter, FaLinkedin, FaWhatsapp, FaFacebookF, FaInstagram } from 'react-icons/fa6'
 import type { SocialLink } from '@/types'
 
 export const SITE = {
@@ -16,10 +16,16 @@ export const SITE = {
 
 export const SOCIAL_LINKS: SocialLink[] = [
   { label: 'GitHub', url: 'https://github.com/Dupont-fr', color: '#181717', icon: FaGithub },
-  { label: 'X (Twitter)', url: 'https://twitter.com', color: '#000000', icon: FaXTwitter },
-  { label: 'LinkedIn', url: 'https://linkedin.com', color: '#0A66C2', icon: FaLinkedin },
+  { label: 'X (Twitter)', url: 'https://x.com/dupont_237', color: '#000000', icon: FaXTwitter },
+  {
+    label: 'LinkedIn',
+    url: 'https://www.linkedin.com/in/dupont-djeague-5366572ab/',
+    color: '#0A66C2',
+    icon: FaLinkedin,
+  },
   { label: 'WhatsApp', url: SITE.whatsappUrl, color: '#25D366', icon: FaWhatsapp },
   { label: 'Facebook', url: 'https://facebook.com', color: '#1877F2', icon: FaFacebookF },
+  { label: 'Instagram', url: 'https://www.instagram.com', color: '#E4405F', icon: FaInstagram },
 ]
 
 export const CONTACT_INFOS = [

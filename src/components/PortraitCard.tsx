@@ -25,7 +25,7 @@ export function PortraitCard({ className }: PortraitCardProps) {
             {SITE.role}
           </span>
 
-          <div className="relative size-52 overflow-hidden rounded-full border border-white/15 bg-background/50 shadow-2xl shadow-primary/30 ring-2 ring-primary/40 sm:size-60">
+          <div className="relative size-56 overflow-hidden rounded-full border border-white/15 bg-background/50 shadow-2xl shadow-primary/30 ring-2 ring-primary/40 sm:size-64">
             <img
               src="/portrait.jpg"
               alt={`Portrait de ${SITE.brand}`}
