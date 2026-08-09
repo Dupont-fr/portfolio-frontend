@@ -1,7 +1,18 @@
 import { NavLink, Outlet, Link } from 'react-router-dom'
-import { ArrowLeft, LayoutDashboard, FolderKanban, BarChart3, GraduationCap, Briefcase, MessageSquare, Settings } from 'lucide-react'
+import {
+  ArrowLeft,
+  LayoutDashboard,
+  FolderKanban,
+  BarChart3,
+  GraduationCap,
+  Briefcase,
+  MessageSquare,
+  Settings,
+  LogOut,
+} from 'lucide-react'
 import { PATHS } from '@/routes/paths'
 import { cn } from '@/utils/cn'
+import { useAuth } from '@/context/AuthContext'
 
 const ADMIN_NAV = [
   { label: 'Dashboard', to: PATHS.admin.dashboard, icon: LayoutDashboard },
@@ -14,6 +25,8 @@ const ADMIN_NAV = [
 ]
 
 export function AdminLayout() {
+  const { user, logout } = useAuth()
+
   return (
     <div className="relative flex min-h-screen">
       <aside className="fixed inset-y-0 left-0 z-40 flex w-16 flex-col border-r border-white/5 bg-background/70 backdrop-blur-xl lg:w-64">
@@ -46,7 +59,19 @@ export function AdminLayout() {
           ))}
         </nav>
 
-        <div className="border-t border-white/5 p-3">
+        <div className="space-y-3 border-t border-white/5 p-3">
+          {user && (
+            <div className="hidden items-center gap-3 rounded-xl bg-white/5 px-3 py-3 lg:flex">
+              <span className="grid size-9 shrink-0 place-items-center rounded-full bg-gradient-to-br from-primary to-secondary text-xs font-bold text-background">
+                {user.name.charAt(0).toUpperCase()}
+              </span>
+              <div className="min-w-0">
+                <p className="truncate text-sm font-medium text-foreground">{user.name}</p>
+                <p className="truncate text-xs text-muted">{user.role.toLowerCase()}</p>
+              </div>
+            </div>
+          )}
+
           <Link
             to={PATHS.home}
             className="flex items-center justify-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-muted transition-colors hover:bg-white/5 hover:text-foreground lg:justify-start"
@@ -54,6 +79,15 @@ export function AdminLayout() {
             <ArrowLeft className="size-5 shrink-0" />
             <span className="hidden lg:block">Retour au site</span>
           </Link>
+
+          <button
+            type="button"
+            onClick={logout}
+            className="flex w-full items-center justify-center gap-3 rounded-xl px-3 py-3 text-sm font-medium text-danger/90 transition-colors hover:bg-danger/10 hover:text-danger lg:justify-start"
+          >
+            <LogOut className="size-5 shrink-0" />
+            <span className="hidden lg:block">Déconnexion</span>
+          </button>
         </div>
       </aside>
 

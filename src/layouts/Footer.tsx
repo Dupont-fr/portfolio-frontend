@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom'
 import { ArrowUpRight } from 'lucide-react'
 import { Logo } from '@/components/Logo'
 import { FOOTER_LINKS } from '@/constants/navigation'
-import { PATHS } from '@/routes/paths'
 import { SITE, SOCIAL_LINKS } from '@/constants/site'
 
 export function Footer() {
@@ -77,15 +76,6 @@ export function Footer() {
                 >
                   {SITE.phone}
                 </a>
-              </li>
-              <li>
-                <Link
-                  to={PATHS.admin.login}
-                  className="inline-flex items-center gap-1 text-xs text-muted/70 transition-colors duration-300 hover:text-accent"
-                >
-                  Espace admin
-                  <ArrowUpRight className="size-3" />
-                </Link>
               </li>
             </ul>
           </div>

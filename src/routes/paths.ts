@@ -11,7 +11,7 @@ export const PATHS = {
   article: (slug: string) => `/blog/${slug}`,
   contact: '/contact',
   admin: {
-    login: '/admin',
+    login: '/admin/login',
     root: '/admin',
     dashboard: '/admin/dashboard',
     projects: '/admin/projets',

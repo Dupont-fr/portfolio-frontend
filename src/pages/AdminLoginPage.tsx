@@ -1,9 +1,11 @@
 import { motion } from 'framer-motion'
-import { useState } from 'react'
-import { Lock, Mail, ArrowRight, ShieldCheck } from 'lucide-react'
+import { useState, type FormEvent } from 'react'
+import { Lock, Mail, ArrowRight, ShieldCheck, Loader2, AlertTriangle, Eye, EyeOff } from 'lucide-react'
 import { Button } from '@/components/ui/Button'
 import { usePageMeta } from '@/hooks/usePageMeta'
-import { Badge } from '@/components/ui/Badge'
+import { useAuth } from '@/context/AuthContext'
+import { Navigate, useNavigate } from 'react-router-dom'
+import { PATHS } from '@/routes/paths'
 
 const EASE = [0.22, 1, 0.36, 1] as const
 
@@ -13,8 +15,32 @@ const inputClasses =
 export function AdminLoginPage() {
   usePageMeta('Connexion Admin', 'Espace d’administration')
 
+  const { login, user } = useAuth()
+  const navigate = useNavigate()
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [submitting, setSubmitting] = useState(false)
+
+  if (user) {
+    return <Navigate to={PATHS.admin.dashboard} replace />
+  }
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    setError(null)
+    setSubmitting(true)
+    try {
+      await login(email, password)
+      navigate(PATHS.admin.dashboard, { replace: true })
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Échec de la connexion. Réessayez.')
+    } finally {
+      setSubmitting(false)
+    }
+  }
 
   return (
     <div className="relative flex min-h-screen items-center justify-center px-5 py-16 sm:px-8">
@@ -38,11 +64,14 @@ export function AdminLoginPage() {
             <p className="mt-2 text-sm text-muted">Connectez-vous pour gérer le contenu du portfolio.</p>
           </div>
 
-          <form
-            onSubmit={(event) => event.preventDefault()}
-            className="space-y-4"
-            aria-label="Formulaire de connexion"
-          >
+          {error && (
+            <div className="mb-6 flex items-start gap-3 rounded-xl border border-danger/30 bg-danger/10 p-4 text-sm text-danger">
+              <AlertTriangle className="mt-0.5 size-4 shrink-0" />
+              <span>{error}</span>
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit} className="space-y-4" aria-label="Formulaire de connexion">
             <div>
               <label htmlFor="email" className="mb-2 block text-xs font-medium uppercase tracking-wider text-muted">
                 Email
@@ -52,6 +81,8 @@ export function AdminLoginPage() {
                 <input
                   id="email"
                   type="email"
+                  autoComplete="email"
+                  required
                   value={email}
                   onChange={(event) => setEmail(event.target.value)}
                   placeholder="admin@portfolio.com"
@@ -68,27 +99,31 @@ export function AdminLoginPage() {
                 <Lock className="pointer-events-none absolute left-4 top-1/2 size-4 -translate-y-1/2 text-muted/60" />
                 <input
                   id="password"
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
+                  autoComplete="current-password"
+                  required
                   value={password}
                   onChange={(event) => setPassword(event.target.value)}
                   placeholder="••••••••"
-                  className={`${inputClasses} pl-11`}
+                  className={`${inputClasses} px-11`}
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((value) => !value)}
+                  aria-label={showPassword ? 'Masquer le mot de passe' : 'Afficher le mot de passe'}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-muted/60 transition-colors hover:text-accent"
+                >
+                  {showPassword ? <EyeOff className="size-4" /> : <Eye className="size-4" />}
+                </button>
               </div>
             </div>
 
-            <Button type="submit" variant="primary" size="lg" className="w-full">
-              Se connecter
-              <ArrowRight className="size-4" />
+            <Button type="submit" variant="primary" size="lg" className="w-full" disabled={submitting}>
+              {submitting ? <Loader2 className="size-4 animate-spin" /> : <ShieldCheck className="size-4" />}
+              {submitting ? 'Connexion…' : 'Se connecter'}
+              {!submitting && <ArrowRight className="size-4" />}
             </Button>
           </form>
-
-          <div className="mt-8 flex items-center justify-center gap-2">
-            <Badge tone="warning">
-              <ShieldCheck className="size-3.5" />
-              Authentification disponible au Sprint 6
-            </Badge>
-          </div>
         </div>
       </motion.div>
     </div>

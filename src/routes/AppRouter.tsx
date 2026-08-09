@@ -1,7 +1,8 @@
-import { Route, Routes, useLocation } from 'react-router-dom'
+import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { AdminLayout } from '@/layouts/AdminLayout'
 import { MainLayout } from '@/layouts/MainLayout'
+import { AuthGuard } from '@/components/admin/AuthGuard'
 import { PATHS } from '@/routes/paths'
 import { AdminLoginPage } from '@/pages/AdminLoginPage'
 import { AboutPage } from '@/pages/AboutPage'
@@ -53,8 +54,15 @@ export function AppRouter() {
           </Route>
 
           <Route path={PATHS.admin.login} element={<AdminLoginPage />} />
-          <Route path={PATHS.admin.root} element={<AdminLayout />}>
-            <Route index element={<DashboardPage />} />
+          <Route
+            path={PATHS.admin.root}
+            element={
+              <AuthGuard>
+                <AdminLayout />
+              </AuthGuard>
+            }
+          >
+            <Route index element={<Navigate to={PATHS.admin.dashboard} replace />} />
             <Route path="dashboard" element={<DashboardPage />} />
             <Route path="projets" element={<ProjectsAdminPage />} />
             <Route path="competences" element={<SkillsAdminPage />} />

@@ -7,6 +7,7 @@ import '@fontsource-variable/sora'
 import './index.css'
 import App from './App'
 import { AppProvider } from '@/context/AppProvider'
+import { AuthProvider } from '@/context/AuthContext'
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -22,9 +23,11 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient}>
       <BrowserRouter>
-        <AppProvider>
-          <App />
-        </AppProvider>
+        <AuthProvider>
+          <AppProvider>
+            <App />
+          </AppProvider>
+        </AuthProvider>
       </BrowserRouter>
     </QueryClientProvider>
   </StrictMode>,
