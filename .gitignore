@@ -23,3 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 .env
+
+# Portrait (géré par l'utilisateur, non commité)
+public/portraits.jpg

@@ -22,6 +22,111 @@ export interface DashboardStats {
   visitor: number
 }
 
+export interface CrudItem {
+  id: string
+  [key: string]: unknown
+}
+
+export interface CrudApi<T extends CrudItem> {
+  list: () => Promise<T[]>
+  create: (input: Record<string, unknown>) => Promise<T>
+  update: (id: string, input: Record<string, unknown>) => Promise<T>
+  remove: (id: string) => Promise<void>
+}
+
+function createCrudApi<T extends CrudItem>(resource: string, singular: string): CrudApi<T> {
+  return {
+    async list() {
+      try {
+        const { data } = await apiClient.get<{ status: string; data: Record<string, T[]> }>(
+          `/admin/${resource}`,
+        )
+        return data.data[singular]
+      } catch (error) {
+        throw toApiError(error)
+      }
+    },
+    async create(input) {
+      try {
+        const { data } = await apiClient.post<{ status: string; data: Record<string, T> }>(
+          `/admin/${resource}`,
+          input,
+        )
+        return data.data[singular]
+      } catch (error) {
+        throw toApiError(error)
+      }
+    },
+    async update(id, input) {
+      try {
+        const { data } = await apiClient.patch<{ status: string; data: Record<string, T> }>(
+          `/admin/${resource}/${id}`,
+          input,
+        )
+        return data.data[singular]
+      } catch (error) {
+        throw toApiError(error)
+      }
+    },
+    async remove(id) {
+      try {
+        await apiClient.delete(`/admin/${resource}/${id}`)
+      } catch (error) {
+        throw toApiError(error)
+      }
+    },
+  }
+}
+
+export interface SkillItem extends CrudItem {
+  name: string
+  icon?: string | null
+  level: number
+  order: number
+  isPublished: boolean
+}
+
+export interface EducationItem extends CrudItem {
+  school: string
+  degree: string
+  field?: string | null
+  description?: string | null
+  startDate: string
+  endDate?: string | null
+  isCurrent: boolean
+  order: number
+}
+
+export interface ExperienceItem extends CrudItem {
+  company: string
+  role: string
+  location?: string | null
+  description?: string | null
+  startDate: string
+  endDate?: string | null
+  isCurrent: boolean
+  order: number
+}
+
+export interface ProjectItem extends CrudItem {
+  title: string
+  slug: string
+  description: string
+  content?: string | null
+  coverImage?: string | null
+  githubUrl?: string | null
+  liveUrl?: string | null
+  category?: string | null
+  featured: boolean
+  isPublished: boolean
+  order: number
+}
+
+export const skillsApi = createCrudApi<SkillItem>('skills', 'skill')
+export const educationsApi = createCrudApi<EducationItem>('educations', 'education')
+export const experiencesApi = createCrudApi<ExperienceItem>('experiences', 'experience')
+export const projectsApi = createCrudApi<ProjectItem>('projects', 'project')
+
 export async function fetchDashboardStats(): Promise<DashboardStats> {
   try {
     const { data } = await apiClient.get<{ status: string; data: DashboardStats }>(
