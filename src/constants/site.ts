@@ -10,7 +10,7 @@ import {
 import type { SocialLink } from '@/types'
 
 export const SITE = {
-  name: 'Dupont Djéague',
+  name: 'Dupont Djeague',
   brand: 'Dupont Djeague',
   role: 'Développeur Full Stack JavaScript',
   email: 'dupontdjeague@gmail.com',
