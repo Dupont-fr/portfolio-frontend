@@ -5,7 +5,8 @@ import { AnimatePresence } from 'framer-motion'
 import { ProjectCard } from '@/components/ui/ProjectCard'
 import { CtaBanner } from '@/components/ui/CtaBanner'
 import { PageHero } from '@/components/PageHero'
-import { PROJECT_CATEGORIES, PROJECTS, type ProjectCategory } from '@/constants/projects'
+import { PROJECT_CATEGORIES, type ProjectCategory } from '@/constants/projects'
+import { useProjects } from '@/hooks/usePublicContent'
 import { usePageMeta } from '@/hooks/usePageMeta'
 import { cn } from '@/utils/cn'
 
@@ -20,8 +21,9 @@ export function ProjectsPage() {
   usePageMeta('Projets', 'Une sélection de mes projets les plus aboutis, du dashboard analytique à l’e-commerce.')
 
   const [active, setActive] = useState<CategoryFilter>('all')
+  const allProjects = useProjects()
 
-  const projects = active === 'all' ? PROJECTS : PROJECTS.filter((project) => project.category === active)
+  const projects = active === 'all' ? allProjects : allProjects.filter((project) => project.category === active)
 
   return (
     <>

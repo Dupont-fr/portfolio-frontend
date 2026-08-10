@@ -80,6 +80,7 @@ function createCrudApi<T extends CrudItem>(resource: string, singular: string): 
 
 export interface SkillItem extends CrudItem {
   name: string
+  category?: string | null
   icon?: string | null
   level: number
   order: number
@@ -91,6 +92,7 @@ export interface EducationItem extends CrudItem {
   degree: string
   field?: string | null
   description?: string | null
+  tags?: string[] | null
   startDate: string
   endDate?: string | null
   isCurrent: boolean
@@ -102,6 +104,7 @@ export interface ExperienceItem extends CrudItem {
   role: string
   location?: string | null
   description?: string | null
+  tags?: string[] | null
   startDate: string
   endDate?: string | null
   isCurrent: boolean
@@ -112,7 +115,12 @@ export interface ProjectItem extends CrudItem {
   title: string
   slug: string
   description: string
-  content?: string | null
+  longDescription?: string | null
+  year?: string | null
+  role?: string | null
+  stack?: string[] | null
+  features?: string[] | null
+  outcomes?: string[] | null
   coverImage?: string | null
   githubUrl?: string | null
   liveUrl?: string | null

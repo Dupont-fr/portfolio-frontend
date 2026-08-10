@@ -18,12 +18,21 @@ export function SkillsAdminPage() {
         emptyMessage: 'Aucune compétence enregistrée pour le moment.',
         identify: (item) => item.name,
         columns: [
+          { key: 'category', label: 'Catégorie' },
           { key: 'level', label: 'Niveau' },
           { key: 'order', label: 'Ordre' },
           { key: 'isPublished', label: 'Affichée' },
         ],
         fields: [
           { key: 'name', label: 'Nom', type: 'text', required: true, placeholder: 'Ex : React', spanFull: true },
+          {
+            key: 'category',
+            label: 'Catégorie',
+            type: 'text',
+            placeholder: 'Frontend, Backend, DevOps & Outils, Design & Qualité',
+            hint: 'Les compétences sont regroupées par catégorie sur la page Compétences.',
+            spanFull: true,
+          },
           {
             key: 'icon',
             label: 'Icône',

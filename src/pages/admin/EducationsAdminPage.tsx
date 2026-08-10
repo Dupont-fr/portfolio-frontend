@@ -20,7 +20,6 @@ export function EducationsAdminPage() {
         columns: [
           { key: 'school', label: 'École' },
           { key: 'startDate', label: 'Début' },
-          { key: 'endDate', label: 'Fin' },
           { key: 'isCurrent', label: 'En cours' },
         ],
         fields: [
@@ -28,6 +27,14 @@ export function EducationsAdminPage() {
           { key: 'degree', label: 'Diplôme', type: 'text', required: true, placeholder: 'Ex : Licence en Informatique', spanFull: true },
           { key: 'field', label: 'Domaine', type: 'text', placeholder: 'Ex : Informatique Fondamentale', spanFull: true },
           { key: 'description', label: 'Description', type: 'textarea', placeholder: 'Détails de la formation…', spanFull: true },
+          {
+            key: 'tags',
+            label: 'Compétences acquises',
+            type: 'list',
+            placeholder: 'Un élément par ligne\nAlgorithmique\nGénie logiciel',
+            hint: 'Une compétence par ligne.',
+            spanFull: true,
+          },
           { key: 'startDate', label: 'Date de début', type: 'date', required: true },
           { key: 'endDate', label: 'Date de fin', type: 'date' },
           { key: 'order', label: 'Ordre', type: 'number', min: 0, step: 1, defaultValue: 0 },

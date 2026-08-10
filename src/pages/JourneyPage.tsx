@@ -3,11 +3,14 @@ import { CtaBanner } from '@/components/ui/CtaBanner'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { PageHero } from '@/components/PageHero'
 import { Timeline } from '@/components/Timeline'
-import { EDUCATIONS, EXPERIENCES } from '@/constants/journey'
+import { useExperiences, useEducations } from '@/hooks/usePublicContent'
 import { usePageMeta } from '@/hooks/usePageMeta'
 
 export function JourneyPage() {
   usePageMeta('Parcours', 'Mon expérience professionnelle et mes formations, racontées en timeline.')
+
+  const experiences = useExperiences()
+  const educations = useEducations()
 
   return (
     <>
@@ -33,7 +36,7 @@ export function JourneyPage() {
               description="Les étapes qui ont forgé ma façon de développer."
             />
             <div className="mt-12">
-              <Timeline items={EXPERIENCES} />
+              <Timeline items={experiences} />
             </div>
           </div>
 
@@ -45,7 +48,7 @@ export function JourneyPage() {
               description="Un apprentissage continu, académique et pratique."
             />
             <div className="mt-12">
-              <Timeline items={EDUCATIONS} />
+              <Timeline items={educations} />
             </div>
           </div>
         </div>

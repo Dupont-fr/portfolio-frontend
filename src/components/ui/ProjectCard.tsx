@@ -13,7 +13,8 @@ interface ProjectCardProps {
 }
 
 export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
-  const categoryLabel = PROJECT_CATEGORIES.find((category) => category.slug === project.category)?.label
+  const categoryLabel =
+    PROJECT_CATEGORIES.find((category) => category.slug === project.category)?.label ?? project.category
 
   return (
     <motion.article

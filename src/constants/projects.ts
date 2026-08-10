@@ -18,7 +18,7 @@ export interface ProjectCategoryInfo {
 export interface Project {
   slug: string
   title: string
-  category: ProjectCategory
+  category: string
   year: string
   role: string
   description: string

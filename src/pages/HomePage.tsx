@@ -10,7 +10,8 @@ import { Reveal } from '@/components/ui/Reveal'
 import { SectionHeading } from '@/components/ui/SectionHeading'
 import { PortraitCard } from '@/components/PortraitCard'
 import { BIO_PARAGRAPHS, STATS } from '@/constants/about'
-import { FEATURED_PROJECTS, MARQUEE_TECH } from '@/constants/home'
+import { MARQUEE_TECH } from '@/constants/home'
+import { useFeaturedProjects } from '@/hooks/usePublicContent'
 import { usePageMeta } from '@/hooks/usePageMeta'
 import { PATHS } from '@/routes/paths'
 import { SITE } from '@/constants/site'
@@ -26,6 +27,7 @@ const TECH = [
 
 export function HomePage() {
   usePageMeta(SITE.name, SITE.tagline)
+  const featuredProjects = useFeaturedProjects()
 
   return (
     <>
@@ -164,7 +166,7 @@ export function HomePage() {
         />
 
         <div className="mt-14 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {FEATURED_PROJECTS.map((project, index) => (
+          {featuredProjects.map((project, index) => (
             <ProjectCard key={project.slug} project={project} index={index} />
           ))}
         </div>

@@ -17,7 +17,7 @@ import type { CrudApi, CrudItem } from '@/services/admin'
 export interface CrudField {
   key: string
   label: string
-  type?: 'text' | 'textarea' | 'number' | 'checkbox' | 'url' | 'date'
+  type?: 'text' | 'textarea' | 'number' | 'checkbox' | 'url' | 'date' | 'list'
   required?: boolean
   placeholder?: string
   hint?: string
@@ -120,6 +120,12 @@ export function CrudAdminPage<T extends CrudItem>({ config }: { config: CrudConf
       let value = form[field.key]
       if (field.type === 'number') {
         value = Number(value)
+      } else if (field.type === 'list') {
+        const items = Array.isArray(value)
+          ? value
+          : String(value ?? '').split(/\r?\n/)
+        const cleaned = items.map((item) => String(item).trim()).filter(Boolean)
+        value = cleaned.length > 0 ? cleaned : null
       } else if (typeof value === 'string') {
         value = value.trim()
       }
@@ -139,6 +145,7 @@ export function CrudAdminPage<T extends CrudItem>({ config }: { config: CrudConf
 
   function renderField(field: CrudField) {
     const value = form[field.key]
+    const listValue = Array.isArray(value) ? value.join('\n') : String(value ?? '')
 
     if (field.type === 'checkbox') {
       return (
@@ -174,14 +181,14 @@ export function CrudAdminPage<T extends CrudItem>({ config }: { config: CrudConf
           {field.label}
           {field.required && <span className="ml-1 text-primary">*</span>}
         </label>
-        {field.type === 'textarea' ? (
+        {field.type === 'textarea' || field.type === 'list' ? (
           <textarea
             id={`field-${field.key}`}
             required={field.required}
-            value={String(value ?? '')}
+            value={listValue}
             onChange={(event) => setForm((current) => ({ ...current, [field.key]: event.target.value }))}
             placeholder={field.placeholder}
-            rows={4}
+            rows={field.type === 'list' ? 4 : 4}
             className={cn(inputClasses, 'resize-y')}
           />
         ) : (

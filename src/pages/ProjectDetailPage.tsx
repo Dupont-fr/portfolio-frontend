@@ -6,7 +6,8 @@ import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { CtaBanner } from '@/components/ui/CtaBanner'
 import { Reveal } from '@/components/ui/Reveal'
-import { PROJECT_CATEGORIES, PROJECTS } from '@/constants/projects'
+import { PROJECT_CATEGORIES } from '@/constants/projects'
+import { useProjectBySlug } from '@/hooks/usePublicContent'
 import { usePageMeta } from '@/hooks/usePageMeta'
 import { PATHS } from '@/routes/paths'
 import { cn } from '@/utils/cn'
@@ -15,7 +16,7 @@ const EASE = [0.22, 1, 0.36, 1] as const
 
 export function ProjectDetailPage() {
   const { slug } = useParams<{ slug: string }>()
-  const project = PROJECTS.find((item) => item.slug === slug)
+  const project = useProjectBySlug(slug)
 
   usePageMeta(project?.title ?? 'Projet introuvable', project?.description)
 
@@ -37,7 +38,8 @@ export function ProjectDetailPage() {
     )
   }
 
-  const categoryLabel = PROJECT_CATEGORIES.find((category) => category.slug === project.category)?.label
+  const categoryLabel =
+    PROJECT_CATEGORIES.find((category) => category.slug === project.category)?.label ?? project.category
 
   return (
     <>

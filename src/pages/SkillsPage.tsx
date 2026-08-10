@@ -4,11 +4,13 @@ import { CtaBanner } from '@/components/ui/CtaBanner'
 import { Reveal } from '@/components/ui/Reveal'
 import { PageHero } from '@/components/PageHero'
 import { SkillBar } from '@/components/SkillBar'
-import { SKILL_CATEGORIES } from '@/constants/skills'
+import { useSkills } from '@/hooks/usePublicContent'
 import { usePageMeta } from '@/hooks/usePageMeta'
 
 export function SkillsPage() {
   usePageMeta('Compétences', 'Les technologies et outils que je maîtrise pour développer des applications web premium.')
+
+  const categories = useSkills()
 
   return (
     <>
@@ -26,7 +28,7 @@ export function SkillsPage() {
 
       <section className="mx-auto max-w-6xl px-5 pb-24 sm:px-8">
         <div className="grid gap-6 md:grid-cols-2">
-          {SKILL_CATEGORIES.map((category, index) => (
+          {categories.map((category, index) => (
             <Reveal key={category.title} delay={index * 0.1}>
               <Card className="h-full p-7 sm:p-8">
                 <div className="flex items-center gap-4">
