@@ -35,6 +35,17 @@ export function ProjectCard({ project, index = 0 }: ProjectCardProps) {
               project.gradient,
             )}
           >
+            {project.coverImage && (
+              <>
+                <img
+                  src={project.coverImage}
+                  alt=""
+                  loading="lazy"
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-background via-background/55 to-background/25" />
+              </>
+            )}
             <div className="absolute inset-0 bg-grid opacity-60 [mask-image:radial-gradient(ellipse_at_center,black,transparent)]" />
             <div className="relative grid size-16 place-items-center rounded-2xl border border-white/15 bg-background/50 backdrop-blur-md shadow-xl shadow-black/30 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3">
               <project.icon className="size-8 text-primary" strokeWidth={1.5} />

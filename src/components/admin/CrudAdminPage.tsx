@@ -13,11 +13,12 @@ import {
 import type { LucideIcon } from 'lucide-react'
 import { cn } from '@/utils/cn'
 import type { CrudApi, CrudItem } from '@/services/admin'
+import { ImageUploadField } from '@/components/admin/ImageUploadField'
 
 export interface CrudField {
   key: string
   label: string
-  type?: 'text' | 'textarea' | 'number' | 'checkbox' | 'url' | 'date' | 'list'
+  type?: 'text' | 'textarea' | 'number' | 'checkbox' | 'url' | 'date' | 'list' | 'image'
   required?: boolean
   placeholder?: string
   hint?: string
@@ -59,6 +60,7 @@ export function CrudAdminPage<T extends CrudItem>({ config }: { config: CrudConf
   const [form, setForm] = useState<Record<string, unknown>>({})
   const [formError, setFormError] = useState<string | null>(null)
   const [confirmDelete, setConfirmDelete] = useState<T | null>(null)
+  const [uploadingCount, setUploadingCount] = useState(0)
 
   const { data: items = [], isLoading, isError, error, refetch } = useQuery({
     queryKey: [config.queryKey],
@@ -113,6 +115,7 @@ export function CrudAdminPage<T extends CrudItem>({ config }: { config: CrudConf
 
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    if (uploadingCount > 0) return
     setFormError(null)
 
     const payload: Record<string, unknown> = {}
@@ -146,6 +149,22 @@ export function CrudAdminPage<T extends CrudItem>({ config }: { config: CrudConf
   function renderField(field: CrudField) {
     const value = form[field.key]
     const listValue = Array.isArray(value) ? value.join('\n') : String(value ?? '')
+
+    if (field.type === 'image') {
+      return (
+        <ImageUploadField
+          key={field.key}
+          label={field.label}
+          required={field.required}
+          hint={field.hint}
+          value={typeof value === 'string' ? value : null}
+          onChange={(url) => setForm((current) => ({ ...current, [field.key]: url }))}
+          onUploadStateChange={(uploading) =>
+            setUploadingCount((count) => (uploading ? count + 1 : Math.max(0, count - 1)))
+          }
+        />
+      )
+    }
 
     if (field.type === 'checkbox') {
       return (
@@ -343,11 +362,19 @@ export function CrudAdminPage<T extends CrudItem>({ config }: { config: CrudConf
                 </button>
                 <button
                   type="submit"
-                  disabled={saveMutation.isPending}
+                  disabled={saveMutation.isPending || uploadingCount > 0}
                   className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-primary to-secondary px-6 py-2.5 text-sm font-medium text-background shadow-lg shadow-primary/25 transition-all duration-300 hover:brightness-110 disabled:opacity-50"
                 >
-                  {saveMutation.isPending ? <Loader2 className="size-4 animate-spin" /> : <Check className="size-4" />}
-                  {saveMutation.isPending ? 'Enregistrement…' : 'Enregistrer'}
+                  {saveMutation.isPending || uploadingCount > 0 ? (
+                    <Loader2 className="size-4 animate-spin" />
+                  ) : (
+                    <Check className="size-4" />
+                  )}
+                  {saveMutation.isPending
+                    ? 'Enregistrement…'
+                    : uploadingCount > 0
+                      ? 'Envoi en cours…'
+                      : 'Enregistrer'}
                 </button>
               </div>
             </form>

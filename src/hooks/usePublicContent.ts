@@ -69,6 +69,7 @@ function adaptProject(item: ProjectItem): Project {
     outcomes: item.outcomes ?? [],
     icon: preset.icon,
     gradient: preset.gradient,
+    coverImage: item.coverImage ?? undefined,
     featured: item.featured,
     githubUrl: item.githubUrl ?? undefined,
     liveUrl: item.liveUrl ?? undefined,

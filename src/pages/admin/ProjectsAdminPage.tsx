@@ -63,7 +63,7 @@ export function ProjectsAdminPage() {
             hint: 'Un résultat par ligne.',
             spanFull: true,
           },
-          { key: 'coverImage', label: 'Image de couverture (URL)', type: 'url', placeholder: 'https://…', spanFull: true },
+          { key: 'coverImage', label: 'Image de couverture', type: 'image', hint: 'PNG, JPG ou WebP — stockée sur Cloudinary.', spanFull: true },
           { key: 'githubUrl', label: 'Lien GitHub (URL)', type: 'url', placeholder: 'https://github.com/…' },
           { key: 'liveUrl', label: 'Lien du site (URL)', type: 'url', placeholder: 'https://…' },
           { key: 'featured', label: 'Projet à la une', type: 'checkbox', spanFull: true },

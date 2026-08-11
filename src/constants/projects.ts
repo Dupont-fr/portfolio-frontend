@@ -20,6 +20,7 @@ export interface Project {
   title: string
   category: string
   year: string
+  coverImage?: string
   role: string
   description: string
   longDescription: string

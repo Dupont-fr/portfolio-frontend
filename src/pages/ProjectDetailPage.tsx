@@ -63,6 +63,17 @@ export function ProjectDetailPage() {
             project.gradient,
           )}
         >
+          {project.coverImage && (
+            <>
+              <img
+                src={project.coverImage}
+                alt={project.title}
+                loading="lazy"
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/40 to-background/80" />
+            </>
+          )}
           <div className="absolute inset-0 bg-grid opacity-60 [mask-image:radial-gradient(ellipse_at_center,black,transparent)]" />
           <div className="absolute -left-20 -top-20 size-64 rounded-full bg-primary/20 blur-[100px]" />
           <div className="absolute -bottom-20 -right-20 size-64 rounded-full bg-secondary/20 blur-[100px]" />
