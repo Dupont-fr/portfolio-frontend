@@ -1,75 +1,74 @@
-# React + TypeScript + Vite
+# Portfolio — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Interface premium (inspirée Apple / Stripe / Linear / Vercel) d'un portfolio de développeur Full Stack JavaScript : accueil, à propos, compétences, projets, services, parcours, certifications, blog, contact, espace admin (dashboard + gestion de contenu).
 
-Currently, two official plugins are available:
+Stack : **React 19, TypeScript, Vite 8, TailwindCSS 4, React Router 7, Framer Motion, TanStack Query, React Hook Form, Zod, Axios, Zustand, Lucide**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Prérequis
 
-## React Compiler
+- Node.js ≥ 20
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Installation
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```bash
+npm install
+cp .env.example .env.local   # puis renseigner les valeurs
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Scripts
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+| Commande | Description |
+| --- | --- |
+| `npm run dev` | Serveur de développement (Vite, port 5173) |
+| `npm run build` | Vérifie les types puis construit l'application |
+| `npm run preview` | Prévisualise le build de production |
+| `npm test` | Lance les tests unitaires (Vitest + Testing Library) |
+| `npm run typecheck` | Vérifie les types sans construire |
+| `npm run format` | Formate le code (Prettier) |
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Variables d'environnement
+
+| Variable | Description | Défaut |
+| --- | --- | --- |
+| `VITE_API_URL` | URL de base de l'API (avec `/api`) | `http://localhost:5000/api` |
+| `VITE_CLOUDINARY_CLOUD_NAME` | Cloud Cloudinary (uploads admin) | `ddnolovmg` |
+| `VITE_CLOUDINARY_UPLOAD_PRESET` | Upload preset Cloudinary | `rony_hair_uploads` |
+
+> En production, `VITE_API_URL` doit pointer vers l'URL du backend déployé (ex. `https://portfolio-backend.onrender.com/api`). Les variables `VITE_*` sont embarquées au moment du build.
+
+## Pages
+
+- Publiques : `/`, `/about`, `/skills`, `/projects`, `/projects/:slug`, `/services`, `/journey`, `/certifications`, `/blog`, `/blog/:slug`, `/contact`
+- Admin (protégé) : `/admin/login`, `/admin` (dashboard), `/admin/projects`, `/admin/skills`, `/admin/educations`, `/admin/experiences`, `/admin/certifications`, `/admin/blog`, `/admin/messages`, `/admin/settings`
+- Autres : `*` (page 404)
+
+## Structure
 
 ```
+src/
+├── components/        # Composants UI, cartes (projets, blog, certifications…)
+├── layouts/           # Layouts principal et admin
+├── pages/             # Pages publiques + pages d'admin
+├── hooks/             # Hooks React (contenu public, données admin…)
+├── services/          # Appels API (client axios, auth, contact, visites, cloudinary)
+├── context/           # Contextes React
+├── store/             # État global (Zustand)
+├── routes/            # Router + chemins
+├── types/             # Types partagés
+├── utils/             # Utilitaires (cn, …)
+├── constants/         # Données statiques (certifications de repli, services…)
+└── test/              # Setup Vitest (mocks IntersectionObserver / matchMedia)
+```
+
+## Tests
+
+```bash
+npm test
+```
+
+Tests unitaires (Vitest + Testing Library) sur les utilitaires, composants clés et services.
+
+## Déploiement
+
+Le frontend est prêt pour **Vercel** (voir `vercel.json`). Configurer `VITE_API_URL` dans les variables d'environnement du projet Vercel puis relancer un déploiement.
