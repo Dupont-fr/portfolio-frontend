@@ -13,9 +13,12 @@ import {
   Loader2,
   AlertTriangle,
   ArrowRight,
+  Globe,
+  MousePointerClick,
+  TrendingUp,
 } from 'lucide-react'
 import { usePageMeta } from '@/hooks/usePageMeta'
-import { fetchDashboardStats, formatDate } from '@/services/admin'
+import { fetchDashboardStats, fetchVisitStats, formatDate } from '@/services/admin'
 import { PATHS } from '@/routes/paths'
 import { cn } from '@/utils/cn'
 
@@ -36,6 +39,15 @@ export function DashboardPage() {
   const { data, isLoading, isError, error, refetch } = useQuery({
     queryKey: ['dashboard-stats'],
     queryFn: fetchDashboardStats,
+  })
+
+  const {
+    data: visitStats,
+    isLoading: visitStatsLoading,
+    isError: visitStatsError,
+  } = useQuery({
+    queryKey: ['admin', 'visit-stats'],
+    queryFn: fetchVisitStats,
   })
 
   return (
@@ -182,6 +194,101 @@ export function DashboardPage() {
                   </li>
                 ))}
               </ul>
+            )}
+          </div>
+
+          <div className="glass mt-8 rounded-2xl p-6">
+            <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+              <h2 className="font-sora text-lg font-semibold">
+                Statistiques de visite
+                <span className="ml-2 inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-accent">
+                  <TrendingUp className="size-3.5" />
+                  {visitStats ? `${visitStats.totalPageViews} vues` : '…'}
+                </span>
+              </h2>
+              {visitStats && (
+                <div className="flex items-center gap-2">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-muted">
+                    <Globe className="size-3.5 text-primary" />
+                    {visitStats.totalVisitors} visiteurs uniques
+                  </span>
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-muted">
+                    <MousePointerClick className="size-3.5 text-primary" />
+                    {visitStats.recentVisits.length} dernières visites
+                  </span>
+                </div>
+              )}
+            </div>
+
+            {visitStatsLoading ? (
+              <div className="flex h-40 items-center justify-center">
+                <Loader2 className="size-6 animate-spin text-primary" />
+              </div>
+            ) : visitStatsError ? (
+              <p className="py-10 text-center text-sm text-muted">
+                Les statistiques de visite sont momentanément indisponibles.
+              </p>
+            ) : !visitStats ? null : visitStats.totalPageViews === 0 ? (
+              <p className="py-10 text-center text-sm text-muted">
+                Aucune visite enregistrée pour le moment. Les visites sont comptées dès qu’un
+                visiteur navigue sur le site.
+              </p>
+            ) : (
+              <div className="grid gap-8 lg:grid-cols-3">
+                <div className="lg:col-span-2">
+                  <p className="mb-4 text-xs uppercase tracking-wider text-muted">
+                    Vues · 14 derniers jours
+                  </p>
+                  <div className="flex h-40 items-end gap-1.5">
+                    {visitStats.last14Days.map((day) => {
+                      const max = Math.max(1, ...visitStats.last14Days.map((item) => item.count))
+                      const height =
+                        day.count === 0
+                          ? 4
+                          : Math.max(8, Math.round((day.count / max) * 100))
+                      return (
+                        <div key={day.date} className="group relative flex h-full flex-1 flex-col justify-end">
+                          {day.count > 0 && (
+                            <span className="pointer-events-none absolute -top-5 left-1/2 -translate-x-1/2 rounded-md bg-white/10 px-1.5 py-0.5 text-[10px] text-foreground opacity-0 backdrop-blur-sm transition-opacity duration-200 group-hover:opacity-100">
+                              {day.count}
+                            </span>
+                          )}
+                          <div
+                            className="w-full rounded-t-md bg-gradient-to-t from-primary/40 to-secondary transition-all duration-300 group-hover:from-primary/60 group-hover:to-secondary"
+                            style={{ height: `${height}%` }}
+                          />
+                          <span className="mt-1.5 block text-center text-[10px] text-muted/60">
+                            {new Date(`${day.date}T00:00:00Z`).toLocaleDateString('fr-FR', {
+                              day: '2-digit',
+                              month: '2-digit',
+                            })}
+                          </span>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+
+                <div>
+                  <p className="mb-4 text-xs uppercase tracking-wider text-muted">
+                    Pages les plus visitées
+                  </p>
+                  {visitStats.topPages.length === 0 ? (
+                    <p className="py-4 text-sm text-muted">Aucune donnée pour le moment.</p>
+                  ) : (
+                    <ul className="space-y-3">
+                      {visitStats.topPages.map((page) => (
+                        <li key={page.path} className="flex items-center justify-between gap-3">
+                          <span className="truncate font-mono text-sm text-muted">{page.path}</span>
+                          <span className="shrink-0 rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-semibold text-accent">
+                            {page.count}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </div>
             )}
           </div>
         </>

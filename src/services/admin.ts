@@ -130,10 +130,23 @@ export interface ProjectItem extends CrudItem {
   order: number
 }
 
+export interface BlogItem extends CrudItem {
+  title: string
+  slug: string
+  excerpt: string
+  content: string
+  coverImage?: string | null
+  tags?: string[] | null
+  isPublished: boolean
+  publishedAt?: string | null
+  order: number
+}
+
 export const skillsApi = createCrudApi<SkillItem>('skills', 'skill')
 export const educationsApi = createCrudApi<EducationItem>('educations', 'education')
 export const experiencesApi = createCrudApi<ExperienceItem>('experiences', 'experience')
 export const projectsApi = createCrudApi<ProjectItem>('projects', 'project')
+export const blogsApi = createCrudApi<BlogItem>('blog', 'blog')
 
 export async function fetchDashboardStats(): Promise<DashboardStats> {
   try {
@@ -171,6 +184,42 @@ export async function markMessageAsRead(id: string): Promise<AdminMessage> {
 export async function deleteMessage(id: string): Promise<void> {
   try {
     await apiClient.delete(`/admin/messages/${id}`)
+  } catch (error) {
+    throw toApiError(error)
+  }
+}
+
+export interface VisitDayCount {
+  date: string
+  count: number
+}
+
+export interface TopPage {
+  path: string
+  count: number
+}
+
+export interface RecentVisit {
+  id: string
+  path: string
+  ip: string
+  createdAt: string
+}
+
+export interface VisitStats {
+  totalVisitors: number
+  totalPageViews: number
+  last14Days: VisitDayCount[]
+  topPages: TopPage[]
+  recentVisits: RecentVisit[]
+}
+
+export async function fetchVisitStats(): Promise<VisitStats> {
+  try {
+    const { data } = await apiClient.get<{ status: string; data: VisitStats }>(
+      '/admin/stats/visits',
+    )
+    return data.data
   } catch (error) {
     throw toApiError(error)
   }

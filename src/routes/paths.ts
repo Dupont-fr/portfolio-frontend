@@ -18,6 +18,7 @@ export const PATHS = {
     skills: '/admin/competences',
     educations: '/admin/formations',
     experiences: '/admin/experiences',
+    blog: '/admin/blog',
     messages: '/admin/messages',
     settings: '/admin/parametres',
   },

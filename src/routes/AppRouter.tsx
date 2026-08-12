@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom'
 import { AnimatePresence, motion } from 'framer-motion'
 import { AdminLayout } from '@/layouts/AdminLayout'
@@ -24,9 +25,16 @@ import { MessagesAdminPage } from '@/pages/admin/MessagesAdminPage'
 import { ProjectsAdminPage } from '@/pages/admin/ProjectsAdminPage'
 import { SettingsAdminPage } from '@/pages/admin/SettingsAdminPage'
 import { SkillsAdminPage } from '@/pages/admin/SkillsAdminPage'
+import { BlogAdminPage } from '@/pages/admin/BlogAdminPage'
+import { trackVisit } from '@/services/visits'
 
 export function AppRouter() {
   const location = useLocation()
+
+  useEffect(() => {
+    if (location.pathname.startsWith(PATHS.admin.root)) return
+    void trackVisit(location.pathname)
+  }, [location.pathname])
 
   return (
     <AnimatePresence mode="wait">
@@ -68,6 +76,7 @@ export function AppRouter() {
             <Route path="competences" element={<SkillsAdminPage />} />
             <Route path="formations" element={<EducationsAdminPage />} />
             <Route path="experiences" element={<ExperiencesAdminPage />} />
+            <Route path="blog" element={<BlogAdminPage />} />
             <Route path="messages" element={<MessagesAdminPage />} />
             <Route path="parametres" element={<SettingsAdminPage />} />
           </Route>

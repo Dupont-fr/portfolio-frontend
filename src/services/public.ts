@@ -1,5 +1,6 @@
 import { apiClient } from './api-client'
 import type {
+  BlogItem,
   EducationItem,
   ExperienceItem,
   ProjectItem,
@@ -44,4 +45,12 @@ export function fetchPublicEducations(): Promise<EducationItem[]> {
 
 export function fetchPublicExperiences(): Promise<ExperienceItem[]> {
   return list<ExperienceItem>('experiences', 'experiences')
+}
+
+export function fetchPublicBlogPosts(): Promise<BlogItem[]> {
+  return list<BlogItem>('blog', 'blogs')
+}
+
+export function fetchPublicBlogPostBySlug(slug: string): Promise<BlogItem> {
+  return getBySlug<BlogItem>('blog', 'blog', slug)
 }
