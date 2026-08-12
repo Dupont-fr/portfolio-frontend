@@ -26,6 +26,7 @@ import { ProjectsAdminPage } from '@/pages/admin/ProjectsAdminPage'
 import { SettingsAdminPage } from '@/pages/admin/SettingsAdminPage'
 import { SkillsAdminPage } from '@/pages/admin/SkillsAdminPage'
 import { BlogAdminPage } from '@/pages/admin/BlogAdminPage'
+import { CertificationsAdminPage } from '@/pages/admin/CertificationsAdminPage'
 import { trackVisit } from '@/services/visits'
 
 export function AppRouter() {
@@ -77,6 +78,7 @@ export function AppRouter() {
             <Route path="formations" element={<EducationsAdminPage />} />
             <Route path="experiences" element={<ExperiencesAdminPage />} />
             <Route path="blog" element={<BlogAdminPage />} />
+            <Route path="certifications" element={<CertificationsAdminPage />} />
             <Route path="messages" element={<MessagesAdminPage />} />
             <Route path="parametres" element={<SettingsAdminPage />} />
           </Route>

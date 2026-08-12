@@ -17,18 +17,21 @@ import {
   EXPERIENCES,
   type TimelineItem,
 } from '@/constants/journey'
+import { CERTIFICATIONS, type Certification } from '@/constants/certifications'
 import {
   PROJECTS,
   type Project,
 } from '@/constants/projects'
 import { SKILL_CATEGORIES, type Skill, type SkillCategory } from '@/constants/skills'
 import {
+  fetchPublicCertifications,
   fetchPublicEducations,
   fetchPublicExperiences,
   fetchPublicProjects,
   fetchPublicSkills,
 } from '@/services/public'
 import type {
+  CertificationItem,
   EducationItem,
   ExperienceItem,
   ProjectItem,
@@ -185,5 +188,27 @@ export function useEducations(): TimelineItem[] {
   return useMemo(() => {
     if (data && data.length > 0) return data.map(adaptEducation)
     return EDUCATIONS
+  }, [data])
+}
+
+export function useCertifications(): Certification[] {
+  const { data } = useQuery({
+    queryKey: ['public', 'certifications'],
+    queryFn: fetchPublicCertifications,
+    staleTime: 60_000,
+  })
+  return useMemo(() => {
+    if (data && data.length > 0) {
+      return data.map((item: CertificationItem) => ({
+        title: item.title,
+        issuer: item.issuer,
+        issuedAt: item.issuedAt,
+        description: item.description ?? '',
+        credentialId: item.credentialId ?? undefined,
+        url: item.url ?? undefined,
+        tags: item.tags ?? [],
+      }))
+    }
+    return CERTIFICATIONS
   }, [data])
 }

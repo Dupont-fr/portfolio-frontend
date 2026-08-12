@@ -19,6 +19,7 @@ export const PATHS = {
     educations: '/admin/formations',
     experiences: '/admin/experiences',
     blog: '/admin/blog',
+    certifications: '/admin/certifications',
     messages: '/admin/messages',
     settings: '/admin/parametres',
   },

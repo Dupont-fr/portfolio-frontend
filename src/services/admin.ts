@@ -19,6 +19,7 @@ export interface DashboardStats {
   experience: number
   education: number
   blog: number
+  certification: number
   visitor: number
 }
 
@@ -142,11 +143,24 @@ export interface BlogItem extends CrudItem {
   order: number
 }
 
+export interface CertificationItem extends CrudItem {
+  title: string
+  issuer: string
+  issuedAt: string
+  description?: string | null
+  credentialId?: string | null
+  url?: string | null
+  tags?: string[] | null
+  isPublished: boolean
+  order: number
+}
+
 export const skillsApi = createCrudApi<SkillItem>('skills', 'skill')
 export const educationsApi = createCrudApi<EducationItem>('educations', 'education')
 export const experiencesApi = createCrudApi<ExperienceItem>('experiences', 'experience')
 export const projectsApi = createCrudApi<ProjectItem>('projects', 'project')
 export const blogsApi = createCrudApi<BlogItem>('blog', 'blog')
+export const certificationsApi = createCrudApi<CertificationItem>('certifications', 'certification')
 
 export async function fetchDashboardStats(): Promise<DashboardStats> {
   try {

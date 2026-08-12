@@ -10,6 +10,7 @@ import {
   Briefcase,
   FileText,
   Eye,
+  Award,
   Loader2,
   AlertTriangle,
   ArrowRight,
@@ -30,6 +31,7 @@ const STAT_CARDS = [
   { key: 'experience', label: 'Expériences', suffix: '' },
   { key: 'education', label: 'Formations', suffix: '' },
   { key: 'blog', label: 'Articles', suffix: '' },
+  { key: 'certification', label: 'Certifications', suffix: '' },
   { key: 'visitor', label: 'Visiteurs', suffix: '' },
 ] as const
 
@@ -106,9 +108,11 @@ export function DashboardPage() {
                           ? Briefcase
                           : card.key === 'education'
                             ? GraduationCap
-                            : card.key === 'blog'
-                              ? FileText
-                              : Eye
+                      : card.key === 'blog'
+                        ? FileText
+                        : card.key === 'certification'
+                          ? Award
+                          : Eye
               const value = data[card.key]
               const highlight = card.key === 'unreadMessages' && value > 0
               return (
