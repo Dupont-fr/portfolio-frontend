@@ -1,6 +1,24 @@
 import axios from 'axios'
 import { describe, expect, it } from 'vitest'
-import { toApiError } from './api-client'
+import { normalizeApiBaseUrl, toApiError } from './api-client'
+
+describe('normalizeApiBaseUrl', () => {
+  it('garde une URL qui se termine déjà par /api', () => {
+    expect(normalizeApiBaseUrl('https://dupont.de5.net/api')).toBe('https://dupont.de5.net/api')
+  })
+
+  it('ajoute /api lorsqu’il est absent', () => {
+    expect(normalizeApiBaseUrl('https://dupont.de5.net')).toBe('https://dupont.de5.net/api')
+  })
+
+  it('supprime le slash final avant d’ajouter /api', () => {
+    expect(normalizeApiBaseUrl('https://dupont.de5.net/')).toBe('https://dupont.de5.net/api')
+  })
+
+  it('gère le défaut local', () => {
+    expect(normalizeApiBaseUrl('http://localhost:5000')).toBe('http://localhost:5000/api')
+  })
+})
 
 describe('toApiError', () => {
   it('retourne une erreur générique pour une erreur inconnue', () => {
