@@ -154,7 +154,7 @@ export function ContactPage() {
                   </Button>
                 </motion.div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+                <form onSubmit={handleSubmit} className="space-y-5">
                   <div className="grid gap-5 sm:grid-cols-2">
                     <div>
                       <label
@@ -172,6 +172,8 @@ export function ContactPage() {
                         required
                         minLength={2}
                         maxLength={80}
+                        pattern="[a-zA-ZÀ-ÿ\u00C0-\u024F].*"
+                        title="Le nom doit contenir au moins une lettre"
                         className={inputClasses}
                       />
                     </div>
