@@ -30,7 +30,7 @@ apiClient.interceptors.request.use((config) => {
 export interface ApiError {
   status: number
   message: string
-  details?: unknown
+  details?: Record<string, string[]>
 }
 
 export function toApiError(error: unknown): ApiError {
@@ -52,7 +52,8 @@ export function toApiError(error: unknown): ApiError {
       message:
         (error.response.data as { message?: string } | undefined)?.message ??
         error.message,
-      details: error.response.data,
+      details: (error.response.data as { details?: Record<string, string[]> } | undefined)
+        ?.details,
     }
   }
   return { status: 0, message: error instanceof Error ? error.message : 'Erreur inconnue' }

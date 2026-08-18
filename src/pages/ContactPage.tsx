@@ -16,6 +16,9 @@ const EASE = [0.22, 1, 0.36, 1] as const
 const inputClasses =
   'w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3.5 text-sm text-foreground placeholder:text-muted/50 outline-none transition-colors duration-300 focus:border-primary/60 focus:bg-primary/5'
 
+const inputErrorClasses =
+  'border-danger/50 focus:border-danger/60 focus:bg-danger/5'
+
 const initialForm: ContactPayload = { name: '', email: '', subject: '', message: '' }
 
 export function ContactPage() {
@@ -24,29 +27,50 @@ export function ContactPage() {
   const [form, setForm] = useState<ContactPayload>(initialForm)
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
   const [error, setError] = useState('')
+  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({})
 
   const isSending = status === 'sending'
 
   function updateField<K extends keyof ContactPayload>(field: K, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }))
+    if (fieldErrors[field]) {
+      setFieldErrors((prev) => {
+        const next = { ...prev }
+        delete next[field]
+        return next
+      })
+    }
   }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setStatus('sending')
     setError('')
+    setFieldErrors({})
 
     const result = await sendContactMessage(form)
 
     if (result) {
       setStatus('error')
       setError(result.message)
+      if (result.details) {
+        const mapped: Record<string, string> = {}
+        for (const [key, messages] of Object.entries(result.details)) {
+          if (messages.length > 0) mapped[key] = messages[0]
+        }
+        setFieldErrors(mapped)
+      }
       return
     }
 
     setStatus('success')
     setForm(initialForm)
   }
+
+  const fieldError = (key: string) => fieldErrors[key] ?? null
+
+  const errorInput = (key: string) =>
+    fieldErrors[key] ? `${inputClasses} ${inputErrorClasses}` : inputClasses
 
   return (
     <>
@@ -174,8 +198,11 @@ export function ContactPage() {
                         maxLength={80}
                         pattern="[a-zA-ZÀ-ÿ\u00C0-\u024F].*"
                         title="Le nom doit contenir au moins une lettre"
-                        className={inputClasses}
+                        className={errorInput('name')}
                       />
+                      {fieldError('name') && (
+                        <p className="mt-1.5 text-xs text-danger">{fieldError('name')}</p>
+                      )}
                     </div>
                     <div>
                       <label
@@ -192,8 +219,11 @@ export function ContactPage() {
                         placeholder="vous@exemple.com"
                         required
                         maxLength={160}
-                        className={inputClasses}
+                        className={errorInput('email')}
                       />
+                      {fieldError('email') && (
+                        <p className="mt-1.5 text-xs text-danger">{fieldError('email')}</p>
+                      )}
                     </div>
                   </div>
 
@@ -204,17 +234,20 @@ export function ContactPage() {
                     >
                       Sujet
                     </label>
-                    <input
-                      id="contact-subject"
-                      type="text"
-                      value={form.subject}
-                      onChange={(event) => updateField('subject', event.target.value)}
-                      placeholder="Objet de votre message"
-                      required
-                      minLength={2}
-                      maxLength={150}
-                      className={inputClasses}
-                    />
+                      <input
+                        id="contact-subject"
+                        type="text"
+                        value={form.subject}
+                        onChange={(event) => updateField('subject', event.target.value)}
+                        placeholder="Objet de votre message"
+                        required
+                        minLength={2}
+                        maxLength={150}
+                        className={errorInput('subject')}
+                      />
+                      {fieldError('subject') && (
+                        <p className="mt-1.5 text-xs text-danger">{fieldError('subject')}</p>
+                      )}
                   </div>
 
                   <div>
@@ -224,17 +257,20 @@ export function ContactPage() {
                     >
                       Message
                     </label>
-                    <textarea
-                      id="contact-message"
-                      value={form.message}
-                      onChange={(event) => updateField('message', event.target.value)}
-                      placeholder="Décrivez votre projet..."
-                      required
-                      minLength={10}
-                      maxLength={5000}
-                      rows={6}
-                      className={`${inputClasses} resize-none`}
-                    />
+                      <textarea
+                        id="contact-message"
+                        value={form.message}
+                        onChange={(event) => updateField('message', event.target.value)}
+                        placeholder="Décrivez votre projet..."
+                        required
+                        minLength={10}
+                        maxLength={5000}
+                        rows={6}
+                        className={`${errorInput('message')} resize-none`}
+                      />
+                      {fieldError('message') && (
+                        <p className="mt-1.5 text-xs text-danger">{fieldError('message')}</p>
+                      )}
                   </div>
 
                   {status === 'error' && (
