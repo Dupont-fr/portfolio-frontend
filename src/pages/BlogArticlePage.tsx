@@ -6,9 +6,11 @@ import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { BlogContent } from '@/components/blog/BlogContent'
 import { CtaBanner } from '@/components/ui/CtaBanner'
+import { ShareButtons } from '@/components/ui/ShareButtons'
 import { fetchPublicBlogPostBySlug } from '@/services/public'
 import { usePageMeta } from '@/hooks/usePageMeta'
 import { PATHS } from '@/routes/paths'
+import { SITE } from '@/constants/site'
 
 const EASE = [0.22, 1, 0.36, 1] as const
 
@@ -132,6 +134,10 @@ export function BlogArticlePage() {
             {post.excerpt}
           </p>
           <BlogContent content={post.content} />
+          <ShareButtons
+            url={`${SITE.url}/blog/${slug}`}
+            title={post.title}
+          />
         </motion.article>
       </section>
 
