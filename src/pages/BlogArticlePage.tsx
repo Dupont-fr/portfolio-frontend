@@ -55,7 +55,7 @@ export function BlogArticlePage() {
         <Button asChild variant="primary" className="mt-8">
           <Link to={PATHS.blog}>
             <ArrowLeft className="size-4" />
-            Retour au blog
+            Retour aux actualités
           </Link>
         </Button>
       </section>

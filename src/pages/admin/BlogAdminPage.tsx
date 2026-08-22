@@ -4,12 +4,12 @@ import { CrudAdminPage } from '@/components/admin/CrudAdminPage'
 import { blogsApi, type BlogItem } from '@/services/admin'
 
 export function BlogAdminPage() {
-  usePageMeta('Blog', 'Gestion des articles du blog')
+  usePageMeta('Actualités', 'Gestion des actualités')
 
   return (
     <CrudAdminPage<BlogItem>
       config={{
-        title: 'Blog',
+        title: 'Actualités',
         description: 'Rédigez et publiez les articles présentés sur le portfolio.',
         icon: Newspaper,
         queryKey: 'admin-blog',

@@ -22,7 +22,7 @@ const ADMIN_NAV = [
   { label: 'Compétences', to: PATHS.admin.skills, icon: BarChart3 },
   { label: 'Formations', to: PATHS.admin.educations, icon: GraduationCap },
   { label: 'Expériences', to: PATHS.admin.experiences, icon: Briefcase },
-  { label: 'Blog', to: PATHS.admin.blog, icon: Newspaper },
+  { label: 'Actualités', to: PATHS.admin.blog, icon: Newspaper },
   { label: 'Certifications', to: PATHS.admin.certifications, icon: Award },
   { label: 'Messages', to: PATHS.admin.messages, icon: MessageSquare },
   { label: 'Paramètres', to: PATHS.admin.settings, icon: Settings },

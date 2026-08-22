@@ -8,7 +8,7 @@ export const NAV_LINKS: NavItem[] = [
   { label: 'Projets', to: PATHS.projects },
   { label: 'Services', to: PATHS.services },
   { label: 'Parcours', to: PATHS.journey },
-  { label: 'Blog', to: PATHS.blog },
+  { label: 'Actualités', to: PATHS.blog },
 ]
 
 export const FOOTER_LINKS: NavItem[] = [
@@ -19,6 +19,6 @@ export const FOOTER_LINKS: NavItem[] = [
   { label: 'Services', to: PATHS.services },
   { label: 'Parcours', to: PATHS.journey },
   { label: 'Certifications', to: PATHS.certifications },
-  { label: 'Blog', to: PATHS.blog },
+  { label: 'Actualités', to: PATHS.blog },
   { label: 'Contact', to: PATHS.contact },
 ]

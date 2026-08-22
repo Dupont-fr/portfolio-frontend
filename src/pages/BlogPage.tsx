@@ -8,7 +8,7 @@ import { usePageMeta } from '@/hooks/usePageMeta'
 
 export function BlogPage() {
   usePageMeta(
-    'Blog',
+    'Actualités',
     "Mes articles et retours d'expérience autour du développement web, de l'architecture et des bonnes pratiques.",
     { path: '/blog' },
   )
@@ -26,7 +26,7 @@ export function BlogPage() {
         icon={<Newspaper className="size-3.5" />}
         title={
           <>
-            Blog
+            Actualités
             <span className="text-gradient">.</span>
           </>
         }
