@@ -18,7 +18,7 @@ const FILTERS: { slug: CategoryFilter; label: string }[] = [
 ]
 
 export function ProjectsPage() {
-  usePageMeta('Projets', 'Une sélection de mes projets les plus aboutis, du dashboard analytique à l’e-commerce.')
+  usePageMeta('Projets', "Une sélection de mes projets les plus aboutis, du dashboard analytique à l'e-commerce.", { path: '/projets' })
 
   const [active, setActive] = useState<CategoryFilter>('all')
   const allProjects = useProjects()

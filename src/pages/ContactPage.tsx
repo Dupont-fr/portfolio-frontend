@@ -22,7 +22,7 @@ const inputErrorClasses =
 const initialForm: ContactPayload = { name: '', email: '', subject: '', message: '' }
 
 export function ContactPage() {
-  usePageMeta('Contact', 'Discutons de votre projet. Je réponds rapidement à chaque message.')
+  usePageMeta('Contact', 'Discutons de votre projet. Je réponds rapidement à chaque message.', { path: '/contact' })
 
   const [form, setForm] = useState<ContactPayload>(initialForm)
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')

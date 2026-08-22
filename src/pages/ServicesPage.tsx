@@ -8,7 +8,7 @@ import { PROCESS, SERVICES } from '@/constants/services'
 import { usePageMeta } from '@/hooks/usePageMeta'
 
 export function ServicesPage() {
-  usePageMeta('Services', 'Développement frontend et backend, applications full stack, e-commerce, refonte et maintenance.')
+  usePageMeta('Services', 'Développement frontend et backend, applications full stack, e-commerce, refonte et maintenance.', { path: '/services' })
 
   return (
     <>

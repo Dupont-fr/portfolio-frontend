@@ -26,7 +26,7 @@ const TECH = [
 ]
 
 export function HomePage() {
-  usePageMeta(SITE.name, SITE.tagline)
+  usePageMeta(SITE.name, SITE.tagline, { path: '/' })
   const featuredProjects = useFeaturedProjects()
 
   return (

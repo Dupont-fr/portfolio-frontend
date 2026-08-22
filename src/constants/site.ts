@@ -13,6 +13,7 @@ export const SITE = {
   name: 'Dupont Djeague',
   brand: 'Dupont Djeague',
   role: 'Développeur Full Stack JavaScript',
+  url: 'https://dupontdjeague.de5.net',
   email: 'dupontdjeague@gmail.com',
   phone: '+237 692 763 964',
   whatsappUrl: 'https://wa.me/237692763964',

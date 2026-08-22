@@ -16,7 +16,7 @@ import { PATHS } from '@/routes/paths'
 const EASE = [0.22, 1, 0.36, 1] as const
 
 export function AboutPage() {
-  usePageMeta('À propos', "Mon parcours, mes valeurs et ma vision du développement web.")
+  usePageMeta('À propos', "Mon parcours, mes valeurs et ma vision du développement web.", { path: '/a-propos' })
 
   return (
     <>

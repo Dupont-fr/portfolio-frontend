@@ -8,7 +8,8 @@ import { usePageMeta } from '@/hooks/usePageMeta'
 export function CertificationsPage() {
   usePageMeta(
     'Certifications',
-    'Mes certifications et accréditations professionnelles et techniques, validées par des organismes reconnus.',
+    "Mes certifications et accréditations professionnelles et techniques, validées par des organismes reconnus.",
+    { path: '/certifications' },
   )
 
   const certifications = useCertifications()

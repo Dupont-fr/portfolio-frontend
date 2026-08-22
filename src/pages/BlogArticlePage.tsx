@@ -32,7 +32,7 @@ export function BlogArticlePage() {
     retry: false,
   })
 
-  usePageMeta(post?.title ?? 'Article', post?.excerpt)
+  usePageMeta(post?.title ?? 'Article', post?.excerpt, { path: slug ? `/blog/${slug}` : '/blog' })
 
   if (isLoading) {
     return (

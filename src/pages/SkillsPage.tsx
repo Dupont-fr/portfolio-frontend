@@ -8,7 +8,7 @@ import { useSkills } from '@/hooks/usePublicContent'
 import { usePageMeta } from '@/hooks/usePageMeta'
 
 export function SkillsPage() {
-  usePageMeta('Compétences', 'Les technologies et outils que je maîtrise pour développer des applications web premium.')
+  usePageMeta('Compétences', 'Les technologies et outils que je maîtrise pour développer des applications web premium.', { path: '/competences' })
 
   const categories = useSkills()
 

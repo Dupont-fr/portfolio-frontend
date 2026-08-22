@@ -7,7 +7,7 @@ import { useExperiences, useEducations } from '@/hooks/usePublicContent'
 import { usePageMeta } from '@/hooks/usePageMeta'
 
 export function JourneyPage() {
-  usePageMeta('Parcours', 'Mon expérience professionnelle et mes formations, racontées en timeline.')
+  usePageMeta('Parcours', 'Mon expérience professionnelle et mes formations, racontées en timeline.', { path: '/parcours' })
 
   const experiences = useExperiences()
   const educations = useEducations()

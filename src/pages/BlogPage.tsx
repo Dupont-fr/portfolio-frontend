@@ -9,7 +9,8 @@ import { usePageMeta } from '@/hooks/usePageMeta'
 export function BlogPage() {
   usePageMeta(
     'Blog',
-    'Mes articles et retours d’expérience autour du développement web, de l’architecture et des bonnes pratiques.',
+    "Mes articles et retours d'expérience autour du développement web, de l'architecture et des bonnes pratiques.",
+    { path: '/blog' },
   )
 
   const { data: posts = [], isLoading } = useQuery({
