@@ -1,6 +1,14 @@
 import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
-import { ArrowRight, ArrowUpRight, Sparkles, Code2, Server, Layers, TerminalSquare } from 'lucide-react'
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Sparkles,
+  Code2,
+  Server,
+  Layers,
+  TerminalSquare,
+} from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
 import { Button } from '@/components/ui/Button'
 import { CtaBanner } from '@/components/ui/CtaBanner'
@@ -64,8 +72,8 @@ export function HomePage() {
             transition={{ delay: 0.22, duration: 0.8, ease: EASE }}
             className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-muted sm:text-lg"
           >
-            {SITE.tagline} Spécialisé dans les interfaces premium et les architectures
-            robustes et évolutives.
+            {SITE.tagline} Spécialisé dans les interfaces premium et les architectures robustes et
+            évolutives.
           </motion.p>
 
           <motion.div
@@ -120,7 +128,8 @@ export function HomePage() {
                 Qui suis-je
               </span>
               <h2 className="font-sora text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-                Passionné par le code et <span className="text-gradient">l’expérience utilisateur</span>
+                Passionné par le code et{' '}
+                <span className="text-gradient">l’expérience utilisateur</span>
               </h2>
             </Reveal>
 
@@ -147,7 +156,7 @@ export function HomePage() {
 
               <div className="mt-8">
                 <Button asChild variant="outline">
-                  <Link to={PATHS.about}>
+                  <Link to={PATHS.journey}>
                     Découvrir mon parcours
                     <ArrowUpRight className="size-4" />
                   </Link>
