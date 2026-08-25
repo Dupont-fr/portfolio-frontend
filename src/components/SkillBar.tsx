@@ -4,9 +4,10 @@ import type { Skill } from '@/constants/skills'
 interface SkillBarProps {
   skill: Skill
   index?: number
+  isVisible: boolean
 }
 
-export function SkillBar({ skill, index = 0 }: SkillBarProps) {
+export function SkillBar({ skill, index = 0, isVisible }: SkillBarProps) {
   return (
     <div>
       <div className="flex items-baseline justify-between gap-4">
@@ -17,8 +18,7 @@ export function SkillBar({ skill, index = 0 }: SkillBarProps) {
         <motion.div
           className="h-full rounded-full bg-gradient-to-r from-secondary via-primary to-accent shadow-[0_0_12px_rgba(0,194,255,0.5)]"
           initial={{ width: 0 }}
-          whileInView={{ width: `${skill.level}%` }}
-          viewport={{ once: true, margin: '-80px' }}
+          animate={isVisible ? { width: `${skill.level}%` } : { width: 0 }}
           transition={{ duration: 1.1, ease: [0.22, 1, 0.36, 1], delay: index * 0.08 }}
         />
       </div>
