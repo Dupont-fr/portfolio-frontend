@@ -85,24 +85,10 @@ export function BlogArticlePage() {
           initial={{ opacity: 0, y: 32 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.8, ease: EASE }}
-          className="relative mt-8 overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-primary/20 via-secondary/10 to-transparent"
+          className="mt-8"
         >
-          {post.coverImage && (
-            <>
-              <img
-                src={post.coverImage}
-                alt=""
-                loading="lazy"
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/40 to-background/80" />
-            </>
-          )}
-          <div className="absolute inset-0 bg-grid opacity-60 [mask-image:radial-gradient(ellipse_at_center,black,transparent)]" />
-          <div className="absolute -left-20 -top-20 size-64 rounded-full bg-primary/20 blur-[100px]" />
-          <div className="absolute -bottom-20 -right-20 size-64 rounded-full bg-secondary/20 blur-[100px]" />
-          <div className="relative flex min-h-72 flex-col items-center justify-center p-10 text-center sm:p-16">
-            <span className="grid size-16 place-items-center rounded-3xl border border-white/15 bg-background/50 shadow-xl shadow-black/30 backdrop-blur-md">
+          <div className="flex flex-col items-center text-center">
+            <span className="grid size-16 place-items-center rounded-3xl border border-white/15 bg-white/[0.04] shadow-2xl shadow-black/40 backdrop-blur-md">
               <Newspaper className="size-8 text-primary" strokeWidth={1.5} />
             </span>
             {post.tags && post.tags.length > 0 && (
@@ -122,6 +108,32 @@ export function BlogArticlePage() {
               {formatPostDate(post.publishedAt)}
             </p>
           </div>
+
+          {post.coverImage && (
+            <div className="mt-10 overflow-hidden rounded-3xl border border-white/10 shadow-2xl shadow-black/40">
+              <img
+                src={post.coverImage}
+                alt=""
+                loading="lazy"
+                className="max-h-[30rem] w-full object-cover"
+              />
+            </div>
+          )}
+
+          <div className="mt-6 overflow-hidden border-y border-primary/20 bg-primary/[0.06] [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+            <div className="flex w-max animate-marquee items-center">
+              {[0, 1].map((i) => (
+                <div
+                  key={i}
+                  aria-hidden={i === 1}
+                  className="flex shrink-0 items-center gap-8 py-3 pr-8 text-sm font-medium text-muted"
+                >
+                  <span className="size-1.5 shrink-0 rounded-full bg-primary" />
+                  <span>{post.excerpt}</span>
+                </div>
+              ))}
+            </div>
+          </div>
         </motion.div>
 
         <motion.article
@@ -130,9 +142,6 @@ export function BlogArticlePage() {
           transition={{ delay: 0.2, duration: 0.7, ease: EASE }}
           className="mx-auto mt-14 max-w-3xl"
         >
-          <p className="mb-12 border-l-2 border-primary/40 pl-5 text-lg italic leading-relaxed text-muted">
-            {post.excerpt}
-          </p>
           <BlogContent content={post.content} />
           <ShareButtons
             url={`${SITE.url}/blog/${slug}`}
