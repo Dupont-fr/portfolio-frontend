@@ -18,7 +18,7 @@ export function ProjectDetailPage() {
   const { slug } = useParams<{ slug: string }>()
   const project = useProjectBySlug(slug)
 
-  usePageMeta(project?.title ?? 'Projet introuvable', project?.description, { path: slug ? `/projets/${slug}` : '/projets' })
+  usePageMeta(project?.title ?? 'Projet introuvable', project?.description, { path: slug ? `/projets/${slug}` : '/projets', image: project?.coverImage ?? undefined })
 
   if (!project) {
     return (
