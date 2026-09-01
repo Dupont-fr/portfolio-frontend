@@ -86,7 +86,7 @@ async function main() {
       image: post.coverImage || DEFAULT_IMAGE,
       url: `${SITE_URL}/blog/${post.slug}`,
     })
-    writePage(`blog/${post.slug}.html`, html)
+    writePage(path.join('blog', post.slug, 'index.html'), html)
     count++
   }
 
@@ -98,7 +98,7 @@ async function main() {
       image: project.coverImage || DEFAULT_IMAGE,
       url: `${SITE_URL}/projets/${project.slug}`,
     })
-    writePage(`projets/${project.slug}.html`, html)
+    writePage(path.join('projets', project.slug, 'index.html'), html)
     count++
   }
 
