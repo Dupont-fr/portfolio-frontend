@@ -38,7 +38,7 @@ export function BlogCard({ post, index = 0 }: BlogCardProps) {
                 src={post.coverImage}
                 alt=""
                 loading="lazy"
-                className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
             </div>
