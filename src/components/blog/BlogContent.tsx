@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { isVideoUrl } from '@/utils/media'
 
 interface BlogContentProps {
   content: string
@@ -68,6 +69,58 @@ export function BlogContent({ content }: BlogContentProps) {
       {blocks.map((block, index) => {
         if (block === '---') {
           return <hr key={index} className="border-white/10" />
+        }
+
+        const imageMatch = /^!\[([^\]]*)\]\(([^)]+)\)$/.exec(block)
+        if (imageMatch) {
+          const [, alt, url] = imageMatch
+          if (isVideoUrl(url)) {
+            return (
+              <div key={index} className="my-8 overflow-hidden rounded-2xl border border-white/10">
+                <video
+                  src={url}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="w-full"
+                />
+                {alt && (
+                  <p className="px-4 py-2 text-center text-sm text-muted">{alt}</p>
+                )}
+              </div>
+            )
+          }
+          return (
+            <figure key={index} className="my-8">
+              <img
+                src={url}
+                alt={alt || ''}
+                loading="lazy"
+                className="w-full rounded-2xl border border-white/10"
+              />
+              {alt && (
+                <figcaption className="mt-2 text-center text-sm text-muted">{alt}</figcaption>
+              )}
+            </figure>
+          )
+        }
+
+        const videoMatch = /^\[video\]\(([^)]+)\)$/.exec(block)
+        if (videoMatch) {
+          const [, url] = videoMatch
+          return (
+            <div key={index} className="my-8 overflow-hidden rounded-2xl border border-white/10">
+              <video
+                src={url}
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full"
+              />
+            </div>
+          )
         }
 
         if (/^#{1,3}\s/.test(block)) {

@@ -11,6 +11,7 @@ import { fetchPublicBlogPostBySlug } from '@/services/public'
 import { usePageMeta } from '@/hooks/usePageMeta'
 import { PATHS } from '@/routes/paths'
 import { SITE } from '@/constants/site'
+import { isVideoUrl } from '@/utils/media'
 
 const EASE = [0.22, 1, 0.36, 1] as const
 
@@ -111,12 +112,23 @@ export function BlogArticlePage() {
 
           {post.coverImage && (
             <div className="relative mt-10 overflow-hidden rounded-3xl border border-white/10 bg-black/30 shadow-2xl shadow-black/40">
-              <img
-                src={post.coverImage}
-                alt=""
-                loading="lazy"
-                className="mx-auto max-h-[30rem] w-full object-contain"
-              />
+              {isVideoUrl(post.coverImage) ? (
+                <video
+                  src={post.coverImage}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="mx-auto max-h-[30rem] w-full object-contain"
+                />
+              ) : (
+                <img
+                  src={post.coverImage}
+                  alt=""
+                  loading="lazy"
+                  className="mx-auto max-h-[30rem] w-full object-contain"
+                />
+              )}
               <div className="absolute inset-x-0 bottom-0 overflow-hidden border-t border-primary/20 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
                 <div className="flex w-max animate-marquee-slow items-center bg-background/80 backdrop-blur-md sm:animate-marquee">
                   {[0, 1].map((i) => (

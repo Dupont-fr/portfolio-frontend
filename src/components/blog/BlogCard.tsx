@@ -4,6 +4,7 @@ import { ArrowUpRight, CalendarDays, Newspaper } from 'lucide-react'
 import { Badge } from '@/components/ui/Badge'
 import type { BlogItem } from '@/services/admin'
 import { PATHS } from '@/routes/paths'
+import { isVideoUrl } from '@/utils/media'
 
 interface BlogCardProps {
   post: BlogItem
@@ -34,12 +35,23 @@ export function BlogCard({ post, index = 0 }: BlogCardProps) {
         <div className="glass relative flex h-full flex-col overflow-hidden rounded-3xl transition-all duration-500 group-hover:-translate-y-1.5 group-hover:border-primary/30 group-hover:shadow-2xl group-hover:shadow-primary/10">
           {post.coverImage ? (
             <div className="relative h-44 overflow-hidden">
-              <img
-                src={post.coverImage}
-                alt=""
-                loading="lazy"
-                className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
-              />
+              {isVideoUrl(post.coverImage) ? (
+                <video
+                  src={post.coverImage}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                />
+              ) : (
+                <img
+                  src={post.coverImage}
+                  alt=""
+                  loading="lazy"
+                  className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                />
+              )}
               <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
             </div>
           ) : (

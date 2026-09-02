@@ -1,5 +1,6 @@
 import { useRef, useState, type ChangeEvent } from 'react'
 import { AlertTriangle, ImagePlus, Loader2, RefreshCw, Trash2 } from 'lucide-react'
+import imageCompression from 'browser-image-compression'
 import { uploadImageToCloudinary } from '@/services/cloudinary'
 
 interface ImageUploadFieldProps {
@@ -12,6 +13,7 @@ interface ImageUploadFieldProps {
 }
 
 const MAX_SIZE_MB = 8
+const COMPRESS_THRESHOLD_MB = 2
 
 export function ImageUploadField({
   label,
@@ -30,12 +32,15 @@ export function ImageUploadField({
     event.target.value = ''
     if (!file) return
 
-    if (!file.type.startsWith('image/')) {
-      setError('Le fichier sélectionné n’est pas une image.')
+    const isImage = file.type.startsWith('image/')
+    const isVideo = file.type.startsWith('video/')
+
+    if (!isImage && !isVideo) {
+      setError('Le fichier sélectionné n\'est pas une image ou une vidéo.')
       return
     }
     if (file.size > MAX_SIZE_MB * 1024 * 1024) {
-      setError(`L’image dépasse ${MAX_SIZE_MB} Mo.`)
+      setError(`Le fichier dépasse ${MAX_SIZE_MB} Mo.`)
       return
     }
 
@@ -43,10 +48,20 @@ export function ImageUploadField({
     setUploading(true)
     onUploadStateChange(true)
     try {
-      const result = await uploadImageToCloudinary(file)
+      let fileToUpload = file
+
+      if (isImage && file.size > COMPRESS_THRESHOLD_MB * 1024 * 1024) {
+        fileToUpload = await imageCompression(file, {
+          maxSizeMB: COMPRESS_THRESHOLD_MB,
+          maxWidthOrHeight: 1920,
+          useWebWorker: true,
+        })
+      }
+
+      const result = await uploadImageToCloudinary(fileToUpload)
       onChange(result.secure_url)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Échec de l’envoi de l’image.')
+      setError(err instanceof Error ? err.message : 'Échec de l\'envoi du fichier.')
     } finally {
       setUploading(false)
       onUploadStateChange(false)
@@ -71,7 +86,11 @@ export function ImageUploadField({
         {value ? (
           <div>
             <div className="relative h-44 w-full overflow-hidden bg-black/30">
-              <img src={value} alt={label} className="h-full w-full object-cover" />
+              {value.match(/\.(mp4|webm|mov|avi|mkv|m4v|ogv)(\?.*)?$/i) ? (
+                <video src={value} muted className="h-full w-full object-cover" />
+              ) : (
+                <img src={value} alt={label} className="h-full w-full object-cover" />
+              )}
               {uploading && (
                 <div className="absolute inset-0 grid place-items-center bg-background/70 backdrop-blur-sm">
                   <Loader2 className="size-6 animate-spin text-primary" />
@@ -116,8 +135,8 @@ export function ImageUploadField({
             <span className="grid size-12 place-items-center rounded-2xl border border-white/10 bg-white/5 text-primary">
               <ImagePlus className="size-6" />
             </span>
-            <span className="text-sm font-medium text-foreground">Choisir une image</span>
-            <span className="text-xs text-muted">PNG, JPG ou WebP — max {MAX_SIZE_MB} Mo</span>
+            <span className="text-sm font-medium text-foreground">Choisir une image ou vidéo</span>
+            <span className="text-xs text-muted">PNG, JPG, WebP ou MP4, WebM — max {MAX_SIZE_MB} Mo</span>
           </button>
         )}
       </div>
@@ -125,7 +144,7 @@ export function ImageUploadField({
       <input
         ref={inputRef}
         type="file"
-        accept="image/*"
+        accept="image/*,video/*"
         className="hidden"
         onChange={handleFile}
       />
