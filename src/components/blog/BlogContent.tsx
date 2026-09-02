@@ -60,7 +60,11 @@ function renderInline(text: string): ReactNode[] {
 }
 
 export function BlogContent({ content }: BlogContentProps) {
-  const blocks = content
+  const normalized = content.replace(
+    /^(\s*\[video\]\([^)]+\)\s*)$/gm,
+    (m) => '\n\n' + m.trim() + '\n\n',
+  )
+  const blocks = normalized
     .split(/\n{2,}/)
     .map((block) => block.trim())
     .filter(Boolean)
