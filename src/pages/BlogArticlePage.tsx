@@ -110,30 +110,29 @@ export function BlogArticlePage() {
           </div>
 
           {post.coverImage && (
-            <div className="mt-10 overflow-hidden rounded-3xl border border-white/10 bg-black/30 shadow-2xl shadow-black/40">
+            <div className="relative mt-10 overflow-hidden rounded-3xl border border-white/10 bg-black/30 shadow-2xl shadow-black/40">
               <img
                 src={post.coverImage}
                 alt=""
                 loading="lazy"
                 className="mx-auto max-h-[30rem] w-full object-contain"
               />
+              <div className="absolute inset-x-0 bottom-0 overflow-hidden border-t border-primary/20 [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
+                <div className="flex w-max animate-marquee-slow items-center bg-background/80 backdrop-blur-md sm:animate-marquee">
+                  {[0, 1].map((i) => (
+                    <div
+                      key={i}
+                      aria-hidden={i === 1}
+                      className="flex shrink-0 items-center gap-8 py-3 pr-8 text-sm font-medium text-muted"
+                    >
+                      <span className="size-1.5 shrink-0 rounded-full bg-primary" />
+                      <span>{post.excerpt}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
           )}
-
-          <div className="mt-6 overflow-hidden border-y border-primary/20 bg-primary/[0.06] [mask-image:linear-gradient(to_right,transparent,black_10%,black_90%,transparent)]">
-            <div className="flex w-max animate-marquee items-center">
-              {[0, 1].map((i) => (
-                <div
-                  key={i}
-                  aria-hidden={i === 1}
-                  className="flex shrink-0 items-center gap-8 py-3 pr-8 text-sm font-medium text-muted"
-                >
-                  <span className="size-1.5 shrink-0 rounded-full bg-primary" />
-                  <span>{post.excerpt}</span>
-                </div>
-              ))}
-            </div>
-          </div>
         </motion.div>
 
         <motion.article
