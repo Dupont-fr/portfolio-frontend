@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react'
 import { isVideoUrl } from '@/utils/media'
+import { VideoPlayer } from '@/components/ui/VideoPlayer'
 
 interface BlogContentProps {
   content: string
@@ -76,17 +77,10 @@ export function BlogContent({ content }: BlogContentProps) {
           const [, alt, url] = imageMatch
           if (isVideoUrl(url)) {
             return (
-              <div key={index} className="my-8 overflow-hidden rounded-2xl border border-white/10">
-                <video
-                  src={url}
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  className="w-full"
-                />
+              <div key={index} className="my-8">
+                <VideoPlayer src={url} />
                 {alt && (
-                  <p className="px-4 py-2 text-center text-sm text-muted">{alt}</p>
+                  <p className="mt-2 text-center text-sm text-muted">{alt}</p>
                 )}
               </div>
             )
@@ -110,15 +104,8 @@ export function BlogContent({ content }: BlogContentProps) {
         if (videoMatch) {
           const [, url] = videoMatch
           return (
-            <div key={index} className="my-8 overflow-hidden rounded-2xl border border-white/10">
-              <video
-                src={url}
-                autoPlay
-                loop
-                muted
-                playsInline
-                className="w-full"
-              />
+            <div key={index} className="my-8">
+              <VideoPlayer src={url} />
             </div>
           )
         }

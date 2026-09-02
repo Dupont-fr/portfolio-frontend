@@ -52,7 +52,7 @@ export function BlogAdminPage() {
             type: 'textarea',
             required: true,
             placeholder: '## Un titre de section\n\nVotre paragraphe…\n\n- Un élément de liste\n- Un autre élément',
-            hint: 'Format léger : ## titre, - liste, **gras**, `code`, [lien](url).',
+            hint: 'Format : ## titre, - liste, **gras**, `code`, [lien](url), ![legende](url-image), [video](url-video).',
             spanFull: true,
           },
           {
