@@ -110,12 +110,12 @@ export function BlogArticlePage() {
           </div>
 
           {post.coverImage && (
-            <div className="mt-10 overflow-hidden rounded-3xl border border-white/10 shadow-2xl shadow-black/40">
+            <div className="mt-10 overflow-hidden rounded-3xl border border-white/10 bg-black/30 shadow-2xl shadow-black/40">
               <img
                 src={post.coverImage}
                 alt=""
                 loading="lazy"
-                className="max-h-[30rem] w-full object-cover"
+                className="mx-auto max-h-[30rem] w-full object-contain"
               />
             </div>
           )}
