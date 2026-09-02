@@ -14,6 +14,7 @@ import type { LucideIcon } from 'lucide-react'
 import { cn } from '@/utils/cn'
 import type { CrudApi, CrudItem } from '@/services/admin'
 import { ImageUploadField } from '@/components/admin/ImageUploadField'
+import { MediaInsertButton } from '@/components/admin/MediaInsertButton'
 
 export interface CrudField {
   key: string
@@ -27,6 +28,7 @@ export interface CrudField {
   step?: number
   defaultValue?: unknown
   spanFull?: boolean
+  mediaInsert?: boolean
 }
 
 export interface CrudConfig<T extends CrudItem> {
@@ -225,6 +227,11 @@ export function CrudAdminPage<T extends CrudItem>({ config }: { config: CrudConf
           />
         )}
         {field.hint && <p className="text-xs text-muted/60">{field.hint}</p>}
+        {field.mediaInsert && (
+          <MediaInsertButton
+            onInserted={(md) => setForm((current) => ({ ...current, [field.key]: String(current[field.key] ?? '') + md }))}
+          />
+        )}
       </div>
     )
   }
