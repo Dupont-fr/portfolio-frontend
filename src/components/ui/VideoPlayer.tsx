@@ -80,7 +80,7 @@ export function VideoPlayer({ src, className }: VideoPlayerProps) {
         onClick={togglePlay}
       />
 
-      <div className="absolute inset-x-0 bottom-0 flex flex-col gap-2 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-3 pt-8 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+      <div className="absolute inset-x-0 bottom-0 flex flex-col gap-2 bg-gradient-to-t from-black/90 via-black/50 to-transparent p-3 pt-10">
         <input
           type="range"
           min={0}
