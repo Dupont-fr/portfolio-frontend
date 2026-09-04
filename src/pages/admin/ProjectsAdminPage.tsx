@@ -16,6 +16,7 @@ export function ProjectsAdminPage() {
         api: projectsApi,
         createLabel: 'Nouveau projet',
         emptyMessage: 'Aucun projet enregistré pour le moment.',
+        ai: { mode: 'project' },
         identify: (item) => item.title,
         columns: [
           { key: 'category', label: 'Catégorie' },

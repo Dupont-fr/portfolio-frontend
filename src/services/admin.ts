@@ -140,6 +140,7 @@ export interface BlogItem extends CrudItem {
   tags?: string[] | null
   isPublished: boolean
   publishedAt?: string | null
+  scheduledAt?: string | null
   order: number
 }
 

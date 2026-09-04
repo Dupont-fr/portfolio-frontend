@@ -16,6 +16,7 @@ export function BlogAdminPage() {
         api: blogsApi,
         createLabel: 'Nouvel article',
         emptyMessage: 'Aucun article enregistré pour le moment.',
+        ai: { mode: 'article' },
         identify: (item) => item.title,
         columns: [
           { key: 'publishedAt', label: 'Publié le' },
@@ -77,6 +78,12 @@ export function BlogAdminPage() {
             label: 'Date de publication',
             type: 'date',
             hint: 'Définie automatiquement à la première publication.',
+          },
+          {
+            key: 'scheduledAt',
+            label: 'Programmer la publication',
+            type: 'datetime',
+            hint: 'Choisissez une date future : l’article sera publié automatiquement à ce moment-là.',
           },
           { key: 'isPublished', label: 'Publié sur le site', type: 'checkbox', spanFull: true },
         ],

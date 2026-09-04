@@ -7,6 +7,7 @@ import {
   Loader2,
   Pencil,
   Plus,
+  Sparkles,
   Trash2,
   X,
 } from 'lucide-react'
@@ -15,11 +16,12 @@ import { cn } from '@/utils/cn'
 import type { CrudApi, CrudItem } from '@/services/admin'
 import { ImageUploadField } from '@/components/admin/ImageUploadField'
 import { MediaInsertButton } from '@/components/admin/MediaInsertButton'
+import { AiAssistantPanel, type AiAssistantMode } from '@/components/admin/AiAssistantPanel'
 
 export interface CrudField {
   key: string
   label: string
-  type?: 'text' | 'textarea' | 'number' | 'checkbox' | 'url' | 'date' | 'list' | 'image'
+  type?: 'text' | 'textarea' | 'number' | 'checkbox' | 'url' | 'date' | 'datetime' | 'list' | 'image'
   required?: boolean
   placeholder?: string
   hint?: string
@@ -42,6 +44,7 @@ export interface CrudConfig<T extends CrudItem> {
   identify: (item: T) => string
   emptyMessage: string
   createLabel: string
+  ai?: { mode: AiAssistantMode }
 }
 
 const inputClasses =
@@ -51,6 +54,21 @@ function formatColumnValue(value: unknown): string {
   if (typeof value === 'boolean') return value ? 'Oui' : 'Non'
   if (value === null || value === undefined || value === '') return '—'
   return String(value)
+}
+
+function isoToLocalDatetime(iso: string | null | undefined): string {
+  if (!iso) return ''
+  const date = new Date(iso)
+  if (Number.isNaN(date.getTime())) return ''
+  const pad = (n: number) => String(n).padStart(2, '0')
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`
+}
+
+function localDatetimeToIso(value: string): string | null {
+  if (!value) return null
+  const date = new Date(value)
+  if (Number.isNaN(date.getTime())) return value
+  return date.toISOString()
 }
 
 export function CrudAdminPage<T extends CrudItem>({ config }: { config: CrudConfig<T> }) {
@@ -63,6 +81,7 @@ export function CrudAdminPage<T extends CrudItem>({ config }: { config: CrudConf
   const [formError, setFormError] = useState<string | null>(null)
   const [confirmDelete, setConfirmDelete] = useState<T | null>(null)
   const [uploadingCount, setUploadingCount] = useState(0)
+  const [assistantOpen, setAssistantOpen] = useState(false)
 
   const { data: items = [], isLoading, isError, error, refetch } = useQuery({
     queryKey: [config.queryKey],
@@ -105,6 +124,7 @@ export function CrudAdminPage<T extends CrudItem>({ config }: { config: CrudConf
     setEditing(null)
     setForm(buildDefaults(null))
     setFormError(null)
+    setAssistantOpen(false)
     setEditorOpen(true)
   }
 
@@ -112,6 +132,7 @@ export function CrudAdminPage<T extends CrudItem>({ config }: { config: CrudConf
     setEditing(item)
     setForm(buildDefaults(item))
     setFormError(null)
+    setAssistantOpen(false)
     setEditorOpen(true)
   }
 
@@ -123,7 +144,9 @@ export function CrudAdminPage<T extends CrudItem>({ config }: { config: CrudConf
     const payload: Record<string, unknown> = {}
     for (const field of fields) {
       let value = form[field.key]
-      if (field.type === 'number') {
+      if (field.type === 'datetime') {
+        value = localDatetimeToIso(typeof value === 'string' ? value : '')
+      } else if (field.type === 'number') {
         value = Number(value)
       } else if (field.type === 'list') {
         const items = Array.isArray(value)
@@ -216,11 +239,25 @@ export function CrudAdminPage<T extends CrudItem>({ config }: { config: CrudConf
           <input
             id={`field-${field.key}`}
             required={field.required}
-            type={field.type === 'number' ? 'number' : field.type === 'url' ? 'url' : field.type === 'date' ? 'date' : 'text'}
+            type={
+              field.type === 'number'
+                ? 'number'
+                : field.type === 'url'
+                  ? 'url'
+                  : field.type === 'datetime'
+                    ? 'datetime-local'
+                    : field.type === 'date'
+                      ? 'date'
+                      : 'text'
+            }
             min={field.min}
             max={field.max}
             step={field.step}
-            value={String(value ?? '')}
+            value={
+              field.type === 'datetime'
+                ? isoToLocalDatetime(typeof value === 'string' ? value : null)
+                : String(value ?? '')
+            }
             onChange={(event) => setForm((current) => ({ ...current, [field.key]: event.target.value }))}
             placeholder={field.placeholder}
             className={inputClasses}
@@ -359,7 +396,17 @@ export function CrudAdminPage<T extends CrudItem>({ config }: { config: CrudConf
 
             <form onSubmit={handleSubmit} className="grid gap-4 sm:grid-cols-2">
               {fields.map(renderField)}
-              <div className="mt-2 flex justify-end gap-3 sm:col-span-2">
+              <div className="mt-2 flex flex-wrap justify-end gap-3 sm:col-span-2">
+                {config.ai && (
+                  <button
+                    type="button"
+                    onClick={() => setAssistantOpen(true)}
+                    className="inline-flex items-center gap-2 rounded-full border border-primary/40 bg-primary/10 px-6 py-2.5 text-sm font-medium text-accent transition-all duration-300 hover:bg-primary/20"
+                  >
+                    <Sparkles className="size-4" />
+                    Assistant IA
+                  </button>
+                )}
                 <button
                   type="button"
                   onClick={() => setEditorOpen(false)}
@@ -387,6 +434,16 @@ export function CrudAdminPage<T extends CrudItem>({ config }: { config: CrudConf
             </form>
           </div>
         </div>
+      )}
+
+      {config.ai && editorOpen && (
+        <AiAssistantPanel
+          mode={config.ai.mode}
+          open={assistantOpen}
+          onClose={() => setAssistantOpen(false)}
+          form={form}
+          onApply={(patch) => setForm((current) => ({ ...current, ...patch }))}
+        />
       )}
 
       {confirmDelete && (
