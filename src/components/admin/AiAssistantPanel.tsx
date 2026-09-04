@@ -28,6 +28,14 @@ interface AiAssistantPanelProps {
 
 type TabId = 'generate' | 'improve' | 'tags'
 
+function errorMessage(err: unknown): string {
+  if (err && typeof err === 'object' && 'message' in err) {
+    const raw = (err as { message: unknown }).message
+    if (typeof raw === 'string' && raw) return raw
+  }
+  return 'Échec de la génération. Réessayez.'
+}
+
 export function AiAssistantPanel({ mode, open, onClose, form, onApply }: AiAssistantPanelProps) {
   const [tab, setTab] = useState<TabId>('generate')
   const [topic, setTopic] = useState('')
@@ -68,7 +76,7 @@ export function AiAssistantPanel({ mode, open, onClose, form, onApply }: AiAssis
         : await generateProjectWithAi(projectDescription.trim())
       setGenerated(result as unknown as Record<string, unknown>)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Échec de la génération.')
+      setError(errorMessage(err))
     } finally {
       setLoading(false)
     }
@@ -86,7 +94,7 @@ export function AiAssistantPanel({ mode, open, onClose, form, onApply }: AiAssis
       const text = await rewriteWithAi(rewriteText.trim(), rewriteInstructions.trim() || undefined)
       setRewritten(text)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Échec de la réécriture.')
+      setError(errorMessage(err))
     } finally {
       setLoading(false)
     }
@@ -105,7 +113,7 @@ export function AiAssistantPanel({ mode, open, onClose, form, onApply }: AiAssis
       const tags = await suggestTagsWithAi(source)
       setSuggestedTags(tags)
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Échec de la suggestion des tags.')
+      setError(errorMessage(err))
     } finally {
       setLoading(false)
     }

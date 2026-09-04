@@ -1,5 +1,7 @@
 import { apiClient, toApiError } from './api-client'
 
+const AI_TIMEOUT_MS = 120_000
+
 export interface GenerateArticleInput {
   topic: string
   tone?: string
@@ -30,6 +32,7 @@ export async function generateArticleWithAi(input: GenerateArticleInput): Promis
     const { data } = await apiClient.post<{ status: string; data: GeneratedArticle }>(
       '/admin/ai/generate-article',
       input,
+      { timeout: AI_TIMEOUT_MS },
     )
     return data.data
   } catch (error) {
@@ -42,6 +45,7 @@ export async function generateProjectWithAi(description: string): Promise<Genera
     const { data } = await apiClient.post<{ status: string; data: GeneratedProject }>(
       '/admin/ai/generate-project',
       { description },
+      { timeout: AI_TIMEOUT_MS },
     )
     return data.data
   } catch (error) {
@@ -54,6 +58,7 @@ export async function rewriteWithAi(text: string, instructions?: string): Promis
     const { data } = await apiClient.post<{ status: string; data: { text: string } }>(
       '/admin/ai/rewrite',
       { text, instructions },
+      { timeout: AI_TIMEOUT_MS },
     )
     return data.data.text
   } catch (error) {
@@ -66,6 +71,7 @@ export async function suggestTagsWithAi(content: string): Promise<string[]> {
     const { data } = await apiClient.post<{ status: string; data: { tags: string[] } }>(
       '/admin/ai/suggest-tags',
       { content },
+      { timeout: AI_TIMEOUT_MS },
     )
     return data.data.tags
   } catch (error) {
