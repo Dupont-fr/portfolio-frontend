@@ -36,6 +36,9 @@ function errorMessage(err: unknown): string {
   return 'Échec de la génération. Réessayez.'
 }
 
+const SELECT_CLASSES =
+  'w-full rounded-xl border border-white/10 bg-white/5 px-3 py-3 text-sm text-foreground outline-none transition-colors focus:border-primary/60 [&>option]:bg-background [&>option]:text-foreground'
+
 export function AiAssistantPanel({ mode, open, onClose, form, onApply }: AiAssistantPanelProps) {
   const [tab, setTab] = useState<TabId>('generate')
   const [topic, setTopic] = useState('')
@@ -241,7 +244,7 @@ export function AiAssistantPanel({ mode, open, onClose, form, onApply }: AiAssis
                       <select
                         value={tone}
                         onChange={(event) => setTone(event.target.value)}
-                        className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-3 text-sm text-foreground outline-none transition-colors focus:border-primary/60"
+                        className={SELECT_CLASSES}
                       >
                         <option>Professionnel et accessible</option>
                         <option>Décontracté et chaleureux</option>
@@ -257,7 +260,7 @@ export function AiAssistantPanel({ mode, open, onClose, form, onApply }: AiAssis
                       <select
                         value={language}
                         onChange={(event) => setLanguage(event.target.value)}
-                        className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-3 text-sm text-foreground outline-none transition-colors focus:border-primary/60"
+                        className={SELECT_CLASSES}
                       >
                         <option>français</option>
                         <option>anglais</option>
@@ -321,7 +324,7 @@ export function AiAssistantPanel({ mode, open, onClose, form, onApply }: AiAssis
                 <select
                   value={rewriteTarget}
                   onChange={(event) => syncRewriteTarget(event.target.value)}
-                  className="w-full rounded-xl border border-white/10 bg-white/5 px-3 py-3 text-sm text-foreground outline-none transition-colors focus:border-primary/60"
+                  className={SELECT_CLASSES}
                 >
                   {isArticle ? (
                     <>
