@@ -1,6 +1,6 @@
 import { apiClient, toApiError } from './api-client'
 
-const AI_TIMEOUT_MS = 120_000
+const AI_TIMEOUT_MS = 180_000
 
 export interface GenerateArticleInput {
   topic: string
