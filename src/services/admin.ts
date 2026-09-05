@@ -7,6 +7,8 @@ export interface AdminMessage {
   subject: string
   message: string
   isRead: boolean
+  reply?: string | null
+  repliedAt?: string | null
   createdAt: string
 }
 
@@ -199,6 +201,19 @@ export async function markMessageAsRead(id: string): Promise<AdminMessage> {
 export async function deleteMessage(id: string): Promise<void> {
   try {
     await apiClient.delete(`/admin/messages/${id}`)
+  } catch (error) {
+    throw toApiError(error)
+  }
+}
+
+export async function replyToMessage(id: string, reply: string): Promise<AdminMessage> {
+  try {
+    const { data } = await apiClient.post<{ status: string; data: { message: AdminMessage } }>(
+      `/admin/messages/${id}/reply`,
+      { reply },
+      { timeout: 15_000 },
+    )
+    return data.data.message
   } catch (error) {
     throw toApiError(error)
   }

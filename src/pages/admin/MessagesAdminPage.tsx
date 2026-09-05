@@ -9,6 +9,7 @@ import {
   AlertTriangle,
   Inbox,
   ArrowDown,
+  Reply,
 } from 'lucide-react'
 import { usePageMeta } from '@/hooks/usePageMeta'
 import {
@@ -19,12 +20,14 @@ import {
   type AdminMessage,
 } from '@/services/admin'
 import { cn } from '@/utils/cn'
+import { ReplyComposer } from '@/components/admin/ReplyComposer'
 
 export function MessagesAdminPage() {
   usePageMeta('Messages', 'Gestion des messages du portfolio')
 
   const queryClient = useQueryClient()
   const [selected, setSelected] = useState<AdminMessage | null>(null)
+  const [replyingTo, setReplyingTo] = useState<AdminMessage | null>(null)
 
   const { data: messages = [], isLoading, isError, error, refetch } = useQuery({
     queryKey: ['admin-messages'],
@@ -48,8 +51,17 @@ export function MessagesAdminPage() {
         current?.filter((message) => message.id !== id),
       )
       setSelected((current) => (current && current.id === id ? null : current))
+      setReplyingTo((current) => (current && current.id === id ? null : current))
     },
   })
+
+  function handleReplySent(updated: AdminMessage) {
+    queryClient.setQueryData<AdminMessage[]>(['admin-messages'], (current) =>
+      current?.map((message) => (message.id === updated.id ? updated : message)),
+    )
+    setSelected(updated)
+    setReplyingTo(null)
+  }
 
   const unreadCount = messages.filter((message) => !message.isRead).length
 
@@ -143,6 +155,12 @@ export function MessagesAdminPage() {
                       >
                         {message.subject}
                       </p>
+                      {message.repliedAt && (
+                        <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-success/30 bg-success/10 px-2 py-0.5 text-[10px] font-semibold text-success">
+                          <MailCheck className="size-3" />
+                          Répondu
+                        </span>
+                      )}
                     </div>
                     <span className="shrink-0 text-xs text-muted/70">{formatDate(message.createdAt)}</span>
                   </div>
@@ -177,7 +195,27 @@ export function MessagesAdminPage() {
                   {selected.message}
                 </p>
 
+                {selected.reply && (
+                  <div className="mt-4 rounded-xl border border-success/20 bg-success/5 p-4">
+                    <div className="mb-1 flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-success">
+                      <MailCheck className="size-3.5" />
+                      Votre réponse envoyée{selected.repliedAt ? ` · ${formatDate(selected.repliedAt)}` : ''}
+                    </div>
+                    <p className="whitespace-pre-wrap text-sm leading-relaxed text-muted">
+                      {selected.reply}
+                    </p>
+                  </div>
+                )}
+
                 <div className="mt-6 flex flex-col gap-2">
+                  <button
+                    type="button"
+                    onClick={() => setReplyingTo(selected)}
+                    className="inline-flex items-center justify-center gap-2 rounded-full bg-gradient-to-r from-primary to-secondary px-5 py-2.5 text-sm font-medium text-white transition-all duration-300 hover:brightness-110"
+                  >
+                    <Reply className="size-4" />
+                    Répondre
+                  </button>
                   {!selected.isRead && (
                     <button
                       type="button"
@@ -208,10 +246,10 @@ export function MessagesAdminPage() {
                   </button>
                   <a
                     href={`mailto:${selected.email}`}
-                    className="mt-1 inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 px-5 py-2.5 text-sm text-foreground transition-all duration-300 hover:border-primary/50 hover:bg-primary/10"
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/15 bg-white/5 px-5 py-2.5 text-sm text-foreground transition-all duration-300 hover:border-primary/50 hover:bg-primary/10"
                   >
                     <MailCheck className="size-4" />
-                    Répondre par email
+                    Ouvrir dans mon client mail
                   </a>
                 </div>
               </div>
@@ -226,6 +264,13 @@ export function MessagesAdminPage() {
           </aside>
         </div>
       )}
+
+      <ReplyComposer
+        message={replyingTo}
+        open={replyingTo !== null}
+        onClose={() => setReplyingTo(null)}
+        onSent={handleReplySent}
+      />
     </div>
   )
 }

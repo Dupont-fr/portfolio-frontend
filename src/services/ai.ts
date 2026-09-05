@@ -78,3 +78,23 @@ export async function suggestTagsWithAi(content: string): Promise<string[]> {
     throw toApiError(error)
   }
 }
+
+export interface DraftReplyInput {
+  name: string
+  originalSubject: string
+  originalMessage: string
+  tone?: string
+}
+
+export async function draftReplyWithAi(input: DraftReplyInput): Promise<string> {
+  try {
+    const { data } = await apiClient.post<{ status: string; data: { reply: string } }>(
+      '/admin/ai/reply-draft',
+      input,
+      { timeout: AI_TIMEOUT_MS },
+    )
+    return data.data.reply
+  } catch (error) {
+    throw toApiError(error)
+  }
+}
