@@ -17,10 +17,16 @@ export const SITE = {
   email: 'dupontdjeague@gmail.com',
   phone: '+237 692 763 964',
   whatsappUrl: 'https://wa.me/237692763964',
+  whatsappMessage:
+    'Bonjour Dupont Djeague, je vous contacte depuis votre portfolio. Seriez-vous disponible pour discuter d’un projet ?',
   location: 'Ouest Cameroun',
   tagline: 'Je conçois et développe des expériences web premium, performantes et accessibles.',
   availability: 'Disponible pour de nouvelles missions',
 } as const
+
+export function whatsappLink(message: string = SITE.whatsappMessage): string {
+  return `https://wa.me/237692763964?text=${encodeURIComponent(message)}`
+}
 
 export const SOCIAL_LINKS: SocialLink[] = [
   { label: 'GitHub', url: 'https://github.com/Dupont-fr', color: '#181717', icon: FaGithub },
@@ -31,7 +37,7 @@ export const SOCIAL_LINKS: SocialLink[] = [
     color: '#0A66C2',
     icon: FaLinkedin,
   },
-  { label: 'WhatsApp', url: SITE.whatsappUrl, color: '#25D366', icon: FaWhatsapp },
+  { label: 'WhatsApp', url: whatsappLink(), color: '#25D366', icon: FaWhatsapp },
   {
     label: 'Facebook',
     url: 'https://web.facebook.com/dupont.djeague',
@@ -48,5 +54,5 @@ export const SOCIAL_LINKS: SocialLink[] = [
 
 export const CONTACT_INFOS = [
   { label: 'Email', value: SITE.email, href: `mailto:${SITE.email}`, icon: Mail },
-  { label: 'Téléphone / WhatsApp', value: SITE.phone, href: SITE.whatsappUrl, icon: Phone },
+  { label: 'Téléphone / WhatsApp', value: SITE.phone, href: whatsappLink(), icon: Phone },
 ] as const

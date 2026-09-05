@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'
 import { ArrowUpRight } from 'lucide-react'
+import { FaWhatsapp } from 'react-icons/fa6'
 import { Logo } from '@/components/Logo'
 import { FOOTER_LINKS } from '@/constants/navigation'
-import { SITE, SOCIAL_LINKS } from '@/constants/site'
+import { SITE, SOCIAL_LINKS, whatsappLink } from '@/constants/site'
 
 export function Footer() {
   const year = new Date().getFullYear()
@@ -69,7 +70,7 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href={SITE.whatsappUrl}
+                  href={whatsappLink()}
                   target="_blank"
                   rel="noreferrer noopener"
                   className="transition-colors duration-300 hover:text-accent"
@@ -78,6 +79,15 @@ export function Footer() {
                 </a>
               </li>
             </ul>
+            <a
+              href={whatsappLink()}
+              target="_blank"
+              rel="noreferrer noopener"
+              className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#25D366] px-5 py-2.5 text-sm font-semibold text-[#062B16] shadow-lg shadow-[#25D366]/25 transition-all duration-300 hover:-translate-y-0.5 hover:brightness-110"
+            >
+              <FaWhatsapp className="size-4.5" />
+              Discuter sur WhatsApp
+            </a>
           </div>
         </div>
 
