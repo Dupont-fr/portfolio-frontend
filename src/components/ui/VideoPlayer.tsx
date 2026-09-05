@@ -25,7 +25,9 @@ export function VideoPlayer({ src, className }: VideoPlayerProps) {
     const v = videoRef.current
     if (!v) return
     if (v.paused) {
-      v.play()
+      void v.play().catch(() => {
+        /* play() peut être interrompu par pause() → AbortError, sans conséquence */
+      })
       setPlaying(true)
     } else {
       v.pause()
