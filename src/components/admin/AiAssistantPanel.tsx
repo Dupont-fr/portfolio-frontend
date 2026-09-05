@@ -44,6 +44,7 @@ export function AiAssistantPanel({ mode, open, onClose, form, onApply }: AiAssis
   const [topic, setTopic] = useState('')
   const [tone, setTone] = useState('Professionnel et accessible')
   const [language, setLanguage] = useState('français')
+  const [withImages, setWithImages] = useState(true)
   const [projectDescription, setProjectDescription] = useState('')
   const [rewriteTarget, setRewriteTarget] = useState('content')
   const [rewriteText, setRewriteText] = useState('')
@@ -75,7 +76,7 @@ export function AiAssistantPanel({ mode, open, onClose, form, onApply }: AiAssis
     setLoading(true)
     try {
       const result = isArticle
-        ? await generateArticleWithAi({ topic: topic.trim(), tone, language })
+        ? await generateArticleWithAi({ topic: topic.trim(), tone, language, withImages })
         : await generateProjectWithAi(projectDescription.trim())
       setGenerated(result as unknown as Record<string, unknown>)
     } catch (err) {
@@ -268,6 +269,23 @@ export function AiAssistantPanel({ mode, open, onClose, form, onApply }: AiAssis
                       </select>
                     </label>
                   </div>
+                  <label className="flex cursor-pointer items-start gap-3 rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 transition-colors hover:border-primary/40 hover:bg-primary/5">
+                    <input
+                      type="checkbox"
+                      checked={withImages}
+                      onChange={(event) => setWithImages(event.target.checked)}
+                      className="mt-0.5 size-4 shrink-0 accent-primary"
+                    />
+                    <span>
+                      <span className="block text-sm font-medium text-foreground">
+                        Générer des images d’illustration
+                      </span>
+                      <span className="block text-xs text-muted">
+                        Une couverture 16:9 (remplit le champ « URL de la couverture ») + 2 illustrations
+                        placées automatiquement dans le contenu. Rend la génération plus longue.
+                      </span>
+                    </span>
+                  </label>
                 </>
               ) : (
                 <label className="block">

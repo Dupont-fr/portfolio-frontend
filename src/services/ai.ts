@@ -6,6 +6,7 @@ export interface GenerateArticleInput {
   topic: string
   tone?: string
   language?: string
+  withImages?: boolean
 }
 
 export interface GeneratedArticle {
@@ -13,6 +14,7 @@ export interface GeneratedArticle {
   excerpt: string
   content: string
   tags: string[]
+  coverImage?: string
 }
 
 export interface GeneratedProject {
