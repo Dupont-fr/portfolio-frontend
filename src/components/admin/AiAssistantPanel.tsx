@@ -44,7 +44,7 @@ export function AiAssistantPanel({ mode, open, onClose, form, onApply }: AiAssis
   const [topic, setTopic] = useState('')
   const [tone, setTone] = useState('Professionnel et accessible')
   const [language, setLanguage] = useState('français')
-  const [withImages, setWithImages] = useState(true)
+  const [withImages, setWithImages] = useState(false)
   const [projectDescription, setProjectDescription] = useState('')
   const [rewriteTarget, setRewriteTarget] = useState('content')
   const [rewriteText, setRewriteText] = useState('')
@@ -278,11 +278,12 @@ export function AiAssistantPanel({ mode, open, onClose, form, onApply }: AiAssis
                     />
                     <span>
                       <span className="block text-sm font-medium text-foreground">
-                        Générer des images d’illustration
+                        Autoriser la génération d’images pour cet article
                       </span>
                       <span className="block text-xs text-muted">
-                        Une couverture 16:9 (remplit le champ « URL de la couverture ») + 2 illustrations
-                        placées automatiquement dans le contenu. Rend la génération plus longue.
+                        Décochez pour un article texte uniquement. Cochez pour générer une couverture
+                        16:9 (champ « URL de la couverture ») + 2 illustrations placées dans le contenu.
+                        Rend la génération plus longue et consomme le quota Gemini.
                       </span>
                     </span>
                   </label>
