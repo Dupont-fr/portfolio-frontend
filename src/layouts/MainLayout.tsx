@@ -1,4 +1,5 @@
 import { Outlet } from 'react-router-dom'
+import { AiChatWidget } from '@/components/AiChatWidget'
 import { BackgroundFX } from '@/layouts/BackgroundFX'
 import { Footer } from '@/layouts/Footer'
 import { Navbar } from '@/layouts/Navbar'
@@ -14,6 +15,7 @@ export function MainLayout() {
         <Outlet />
       </main>
       <Footer />
+      <AiChatWidget />
     </div>
   )
 }

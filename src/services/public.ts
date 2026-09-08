@@ -59,3 +59,17 @@ export function fetchPublicBlogPostBySlug(slug: string): Promise<BlogItem> {
 export function fetchPublicCertifications(): Promise<CertificationItem[]> {
   return list<CertificationItem>('certifications', 'certifications')
 }
+
+export interface ChatTurn {
+  role: 'user' | 'assistant'
+  content: string
+}
+
+export async function sendAiChat(turns: ChatTurn[]): Promise<string> {
+  const { data } = await apiClient.post<{ status: string; data: { reply: string } }>(
+    '/ai/chat',
+    { messages: turns },
+    { timeout: 180_000 },
+  )
+  return data.data.reply
+}
