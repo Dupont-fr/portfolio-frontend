@@ -212,7 +212,7 @@ export function AiChatWidget() {
   const showQuickPrompts = turns.length <= 1 && !loading
 
   return (
-    <div className="fixed bottom-5 right-5 z-50 flex items-end gap-3">
+    <div className="fixed bottom-[max(1.25rem,env(safe-area-inset-bottom))] right-5 z-50 flex items-end gap-3">
       <AnimatePresence>
         {open && (
           <motion.aside
@@ -221,9 +221,9 @@ export function AiChatWidget() {
             exit={{ opacity: 0, y: 24, scale: 0.97 }}
             transition={{ duration: 0.25, ease: [0.22, 1, 0.36, 1] }}
             aria-label="Chat Dupont AI"
-            className="flex h-[min(620px,calc(100dvh-7.5rem))] w-[min(390px,calc(100vw-2.5rem))] flex-col overflow-hidden rounded-3xl border border-white/10 bg-background/95 shadow-2xl shadow-black/60 backdrop-blur-xl"
+            className="fixed inset-0 z-50 flex h-svh flex-col overflow-hidden bg-background sm:left-auto sm:top-auto sm:bottom-24 sm:right-5 sm:h-[min(620px,calc(100dvh-8rem))] sm:w-[390px] sm:rounded-3xl sm:border sm:border-white/10 sm:bg-background/95 sm:shadow-2xl sm:shadow-black/60 sm:backdrop-blur-xl"
           >
-            <div className="flex items-center gap-3 border-b border-white/10 bg-white/[0.03] px-4 py-3.5">
+            <div className="flex items-center gap-3 border-b border-white/10 bg-white/[0.03] px-4 pt-[max(1rem,env(safe-area-inset-top))] pb-3.5 sm:pt-3.5">
               <span className="relative grid size-11 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-primary to-secondary text-background shadow-lg shadow-primary/25">
                 <Bot className="size-5.5" />
                 <span className="absolute -bottom-0.5 -right-0.5 size-3 rounded-full bg-success ring-2 ring-background" />
@@ -314,7 +314,7 @@ export function AiChatWidget() {
             )}
 
             <form
-              className="border-t border-white/10 bg-white/[0.03] p-3"
+              className="border-t border-white/10 bg-white/[0.03] px-3 pt-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))]"
               onSubmit={(event) => {
                 event.preventDefault()
                 void handleSend()
@@ -374,7 +374,10 @@ export function AiChatWidget() {
         aria-expanded={open}
         aria-label={open ? 'Fermer le chat Dupont AI' : 'Ouvrir le chat Dupont AI'}
         title="Discuter avec Dupont AI"
-        className="group grid size-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-primary to-secondary text-background shadow-2xl shadow-primary/30 ring-1 ring-white/20 transition-all duration-300 hover:scale-105 hover:brightness-110"
+        className={cn(
+          'group grid size-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-primary to-secondary text-background shadow-2xl shadow-primary/30 ring-1 ring-white/20 transition-all duration-300 hover:scale-105 hover:brightness-110',
+          open && 'hidden sm:grid',
+        )}
       >
         {open ? <X className="size-5.5" /> : <Bot className="size-5.5" />}
       </button>
