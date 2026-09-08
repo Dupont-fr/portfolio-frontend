@@ -375,11 +375,11 @@ export function AiChatWidget() {
         aria-label={open ? 'Fermer le chat Dupont AI' : 'Ouvrir le chat Dupont AI'}
         title="Discuter avec Dupont AI"
         className={cn(
-          'group grid size-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-primary to-secondary text-background shadow-2xl shadow-primary/30 ring-1 ring-white/20 transition-all duration-300 hover:scale-105 hover:brightness-110',
+          'group grid size-12 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-primary to-secondary text-background shadow-2xl shadow-primary/30 ring-1 ring-white/20 transition-all duration-300 hover:scale-105 hover:brightness-110',
           open && 'hidden sm:grid',
         )}
       >
-        {open ? <X className="size-5.5" /> : <Bot className="size-5.5" />}
+        {open ? <X className="size-5" /> : <Bot className="size-5" />}
       </button>
     </div>
   )
