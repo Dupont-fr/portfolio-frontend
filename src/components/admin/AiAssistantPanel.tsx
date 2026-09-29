@@ -1,13 +1,5 @@
 import { useState } from 'react'
-import {
-  AlertTriangle,
-  Check,
-  Loader2,
-  Sparkles,
-  Tag as TagIcon,
-  Wand2,
-  X,
-} from 'lucide-react'
+import { AlertTriangle, Check, Loader2, Sparkles, Tag as TagIcon, Wand2, X } from 'lucide-react'
 import { cn } from '@/utils/cn'
 import {
   generateArticleWithAi,
@@ -174,7 +166,7 @@ export function AiAssistantPanel({ mode, open, onClose, form, onApply }: AiAssis
             <div>
               <h2 className="font-sora text-base font-semibold">Assistant IA</h2>
               <p className="text-xs text-muted">
-                {isArticle ? 'Rédigez vos articles' : 'Concevez vos projets'} avec Gemini
+                {isArticle ? 'Rédigez vos articles' : 'Concevez vos projets'} avec Dupont AI
               </p>
             </div>
           </div>
@@ -191,7 +183,11 @@ export function AiAssistantPanel({ mode, open, onClose, form, onApply }: AiAssis
         <div className="flex border-b border-white/10">
           {(
             [
-              { id: 'generate', label: isArticle ? 'Générer article' : 'Générer projet', icon: Wand2 },
+              {
+                id: 'generate',
+                label: isArticle ? 'Générer article' : 'Générer projet',
+                icon: Wand2,
+              },
               { id: 'improve', label: 'Améliorer', icon: Sparkles },
               ...(isArticle ? [{ id: 'tags', label: 'Tags', icon: TagIcon }] : []),
             ] as { id: TabId; label: string; icon: typeof Wand2 }[]
@@ -281,9 +277,10 @@ export function AiAssistantPanel({ mode, open, onClose, form, onApply }: AiAssis
                         Autoriser la génération d’images pour cet article
                       </span>
                       <span className="block text-xs text-muted">
-                        Décochez pour un article texte uniquement. Cochez pour générer une couverture
-                        16:9 (champ « URL de la couverture ») + 2 illustrations placées dans le contenu.
-                        Rend la génération plus longue et consomme le quota Gemini.
+                        Décochez pour un article texte uniquement. Cochez pour générer une
+                        couverture 16:9 (champ « URL de la couverture ») + 2 illustrations placées
+                        dans le contenu. Rend la génération plus longue et consomme le quota Dupont
+                        AI.
                       </span>
                     </span>
                   </label>
@@ -309,7 +306,11 @@ export function AiAssistantPanel({ mode, open, onClose, form, onApply }: AiAssis
                 disabled={loading}
                 className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-primary to-secondary px-5 py-3 text-sm font-medium text-background shadow-lg shadow-primary/25 transition-all duration-300 hover:brightness-110 disabled:opacity-50"
               >
-                {loading ? <Loader2 className="size-4 animate-spin" /> : <Wand2 className="size-4" />}
+                {loading ? (
+                  <Loader2 className="size-4 animate-spin" />
+                ) : (
+                  <Wand2 className="size-4" />
+                )}
                 {loading ? 'Génération en cours…' : 'Générer'}
               </button>
 
@@ -389,7 +390,11 @@ export function AiAssistantPanel({ mode, open, onClose, form, onApply }: AiAssis
                 disabled={loading}
                 className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-primary to-secondary px-5 py-3 text-sm font-medium text-background shadow-lg shadow-primary/25 transition-all duration-300 hover:brightness-110 disabled:opacity-50"
               >
-                {loading ? <Loader2 className="size-4 animate-spin" /> : <Sparkles className="size-4" />}
+                {loading ? (
+                  <Loader2 className="size-4 animate-spin" />
+                ) : (
+                  <Sparkles className="size-4" />
+                )}
                 {loading ? 'Réécriture en cours…' : 'Réécrire'}
               </button>
 
@@ -424,7 +429,11 @@ export function AiAssistantPanel({ mode, open, onClose, form, onApply }: AiAssis
                 disabled={loading}
                 className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-primary to-secondary px-5 py-3 text-sm font-medium text-background shadow-lg shadow-primary/25 transition-all duration-300 hover:brightness-110 disabled:opacity-50"
               >
-                {loading ? <Loader2 className="size-4 animate-spin" /> : <TagIcon className="size-4" />}
+                {loading ? (
+                  <Loader2 className="size-4 animate-spin" />
+                ) : (
+                  <TagIcon className="size-4" />
+                )}
                 {loading ? 'Analyse en cours…' : 'Suggérer des tags'}
               </button>
 
