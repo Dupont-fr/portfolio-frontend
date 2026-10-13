@@ -75,7 +75,7 @@ export function VideoPlayer({ src, className }: VideoPlayerProps) {
       <video
         ref={videoRef}
         src={src}
-        className="w-full"
+        className="mx-auto max-h-[30rem] w-full object-contain"
         onTimeUpdate={handleTimeUpdate}
         onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
         onEnded={() => setPlaying(false)}
