@@ -160,6 +160,9 @@ export function CrudAdminPage<T extends CrudItem>({ config }: { config: CrudConf
       if (value === '') {
         value = field.required ? '' : null
       }
+      if (field.type === 'date' && value === null) {
+        value = undefined
+      }
       payload[field.key] = value
     }
 

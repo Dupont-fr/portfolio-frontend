@@ -38,10 +38,9 @@ export function BlogCard({ post, index = 0 }: BlogCardProps) {
               {isVideoUrl(post.coverImage) ? (
                 <video
                   src={post.coverImage}
-                  autoPlay
-                  loop
                   muted
                   playsInline
+                  preload="metadata"
                   className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
                 />
               ) : (
